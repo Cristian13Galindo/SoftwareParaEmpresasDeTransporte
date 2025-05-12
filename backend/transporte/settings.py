@@ -149,14 +149,49 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True  # Solo para desarrollo
 
 # También puedes añadir configuración para DRF
+# Django REST Framework
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # <-- AGREGAR ESTO
+        'rest_framework.authentication.SessionAuthentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
 }
+
+# JWT Settings
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    
+    # Local apps
+    'apps.usuarios',
+    'apps.empresa',
+    'apps.vehiculo',
+    'apps.conductor',
+    'apps.viaje',
+    'apps.carga',
+    'apps.factura',
+    'apps.auditoria',
+    'apps.estadoviaje',
+    'apps.destinatariofinal',
+    'apps.cliente',
+    'apps.auditoria_loginusuarios',
+    
+    # Third party apps
+    'rest_framework',  # <-- AÑADIR ESTA LÍNEA
+    'rest_framework_simplejwt',  # <-- AÑADIR ESTA LÍNEA
+]
