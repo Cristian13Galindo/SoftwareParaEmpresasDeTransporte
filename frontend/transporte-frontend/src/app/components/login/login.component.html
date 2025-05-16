@@ -1,0 +1,36 @@
+<div class="login-container">
+  <div class="login-card">
+    <h2>Iniciar Sesión</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="username">Usuario</label>
+        <input type="text" id="username" formControlName="username" class="form-control">
+        @if (loginForm.get('username')?.invalid && loginForm.get('username')?.touched) {
+          <div class="text-danger">
+            El nombre de usuario es obligatorio
+          </div>
+        }
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" formControlName="password" class="form-control">
+        @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+          <div class="text-danger">
+            La contraseña es obligatoria
+          </div>
+        }
+      </div>
+      
+      @if (error) {
+        <div class="alert alert-danger">
+          {{ error }}
+        </div>
+      }
+      
+      <button type="submit" [disabled]="loginForm.invalid || loading" class="btn btn-primary">
+        {{ loading ? 'Iniciando...' : 'Iniciar Sesión' }}
+      </button>
+    </form>
+  </div>
+</div>

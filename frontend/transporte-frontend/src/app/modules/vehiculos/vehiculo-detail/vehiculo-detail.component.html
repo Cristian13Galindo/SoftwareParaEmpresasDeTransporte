@@ -1,0 +1,56 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <h4 class="mb-0">Detalle del Vehículo</h4>
+      <div>
+        <button class="btn btn-light me-2" [routerLink]="['/vehiculos']">Volver</button>
+        <button class="btn btn-warning" [routerLink]="['../edit']">Editar</button>
+      </div>
+    </div>
+    
+    <div class="card-body" *ngIf="vehiculo && !loading && !error">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <h5>Información Básica</h5>
+          <ul class="list-group">
+            <li class="list-group-item"><strong>Placa:</strong> {{ vehiculo.placa }}</li>
+            <li class="list-group-item"><strong>Marca:</strong> {{ vehiculo.marca }}</li>
+            <li class="list-group-item"><strong>Modelo:</strong> {{ vehiculo.modelo }}</li>
+            <li class="list-group-item"><strong>Año:</strong> {{ vehiculo.anno }}</li>
+            <li class="list-group-item"><strong>Tipo:</strong> {{ vehiculo.tipo }}</li>
+          </ul>
+        </div>
+        
+        <div class="col-md-6">
+          <h5>Estado y Detalles</h5>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>Estado:</strong> 
+              <span [ngClass]="{
+                'badge bg-success': vehiculo.estado === 'Activo',
+                'badge bg-warning': vehiculo.estado === 'Mantenimiento',
+                'badge bg-danger': vehiculo.estado === 'Fuera de servicio'
+              }">{{ vehiculo.estado }}</span>
+            </li>
+            <li class="list-group-item"><strong>Capacidad:</strong> {{ vehiculo.capacidad }} kg</li>
+            <li class="list-group-item"><strong>Kilometraje:</strong> {{ vehiculo.kilometraje }} km</li>
+            <li class="list-group-item"><strong>Fecha de Compra:</strong> {{ vehiculo.fecha_compra }}</li>
+            <li class="list-group-item"><strong>Conductor Asignado:</strong> {{ vehiculo.conductor_nombre || 'No asignado' }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-body text-center" *ngIf="loading">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+    
+    <div class="card-body text-center" *ngIf="error">
+      <div class="alert alert-danger">
+        {{ error }}
+      </div>
+    </div>
+  </div>
+</div>

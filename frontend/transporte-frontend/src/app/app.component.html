@@ -4,7 +4,7 @@
 <!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * Delete the template below * * * * * * * * * -->
-<!-- * * * * * * * to get started with your project! * * * * * * * -->
+<!-- * * * * * * to get started with your project! * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
 <style>
@@ -176,6 +176,16 @@
     }
   }
 </style>
+
+<div class="app-container">
+  <app-navbar *ngIf="isAuthenticated"></app-navbar>
+  <div class="content-area">
+    <app-sidebar *ngIf="isAuthenticated"></app-sidebar>
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
 
 <main class="main">
   <div class="content">
