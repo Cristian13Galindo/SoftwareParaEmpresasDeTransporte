@@ -14,6 +14,7 @@ class Factura(models.Model):
     observaciones = models.TextField(blank=True, null=True)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='facturas')
     viaje = models.ForeignKey(Viaje, on_delete=models.CASCADE, related_name='facturas')
+    metodo_pago = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

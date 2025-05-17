@@ -1,9 +1,8 @@
 from django.contrib import admin
-from .models import Destinatariofinal
+from .models import DestinatarioFinal  # Corregir nombre
 
-@admin.register(Destinatariofinal)
-class DestinatariofinalAdmin(admin.ModelAdmin):
-    list_display = ['id_destinatario', 'nombre', 'documento', 'telefono', 'carga', 'cliente']
-    list_filter = ['cliente', 'carga']
-    search_fields = ['nombre', 'documento', 'correo']
+@admin.register(DestinatarioFinal)  # Corregir nombre
+class DestinatarioFinalAdmin(admin.ModelAdmin):  # Corregir nombre
+    list_display = ['id_destinatario', 'nombre_empresa', 'direccion', 'telefono']  # Actualizar campos
+    search_fields = ['nombre_empresa', 'telefono']  # Actualizar campos
     readonly_fields = ['created_at', 'updated_at']

@@ -1,18 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
-
-interface Vehiculo {
-  id_vehiculo?: number;
-  placa: string;
-  marca: string;
-  modelo: string;
-  capacidad_maxima_toneladas: number;
-  estado: string;
-  empresa_id: number;
-}
+import { VehiculoService } from '../../../services/vehiculo.service';
+import { Vehiculo } from '../../../models/vehiculo.model';
 
 @Component({
   selector: 'app-vehiculos-list',
@@ -22,7 +12,7 @@ interface Vehiculo {
     <div class="container mt-4">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Gestión de Vehículos</h2>
-        <button class="btn btn-primary">Agregar Vehículo</button>
+        <a routerLink="new" class="btn btn-primary">Agregar Vehículo</a>
       </div>
       
       <div class="card">
@@ -67,9 +57,9 @@ interface Vehiculo {
                     }">{{ vehiculo.estado }}</span>
                   </td>
                   <td>
-                    <button class="btn btn-sm btn-info me-1">Ver</button>
-                    <button class="btn btn-sm btn-warning me-1">Editar</button>
-                    <button class="btn btn-sm btn-danger">Eliminar</button>
+                    <button class="btn btn-sm btn-info me-1" [routerLink]="[vehiculo.id_vehiculo]">Ver</button>
+                    <button class="btn btn-sm btn-warning me-1" [routerLink]="[vehiculo.id_vehiculo, 'edit']">Editar</button>
+                    <button class="btn btn-sm btn-danger" (click)="deleteVehiculo(vehiculo.id_vehiculo)">Eliminar</button>
                   </td>
                 </tr>
               </tbody>
@@ -89,49 +79,38 @@ export class VehiculosListComponent implements OnInit {
   loading = false;
   error = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private vehiculoService: VehiculoService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadVehiculos();
   }
 
-  loadVehiculos() {
+  loadVehiculos(): void {
     this.loading = true;
-    this.error = '';
+    this.vehiculoService.getAll().subscribe({
+      next: (data) => {
+        this.vehiculos = data;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error cargando vehículos:', error);
+        this.error = 'Error al cargar los vehículos. Intente nuevamente más tarde.';
+        this.loading = false;
+      }
+    });
+  }
 
-    this.http.get<Vehiculo[]>(`${environment.apiUrl}/vehiculos/`)
-      .subscribe({
-        next: (data) => {
-          this.vehiculos = data;
-          this.loading = false;
+  deleteVehiculo(id: number): void {
+    if (confirm('¿Está seguro de eliminar este vehículo?')) {
+      this.vehiculoService.delete(id).subscribe({
+        next: () => {
+          this.vehiculos = this.vehiculos.filter(v => v.id_vehiculo !== id);
         },
         error: (error) => {
-          console.error('Error cargando vehículos:', error);
-          this.error = 'Error al cargar los vehículos. Puede que la API no esté disponible.';
-          this.loading = false;
-          
-          // Para pruebas, cargamos datos de ejemplo
-          this.vehiculos = [
-            {
-              id_vehiculo: 1,
-              placa: 'ABC123',
-              marca: 'Volvo',
-              modelo: 'FH16',
-              capacidad_maxima_toneladas: 20,
-              estado: 'Activo',
-              empresa_id: 1
-            },
-            {
-              id_vehiculo: 2,
-              placa: 'XYZ789',
-              marca: 'Mercedes',
-              modelo: 'Actros',
-              capacidad_maxima_toneladas: 18,
-              estado: 'Mantenimiento',
-              empresa_id: 1
-            }
-          ];
+          console.error('Error eliminando vehículo:', error);
+          this.error = 'Error al eliminar el vehículo. Intente nuevamente más tarde.';
         }
       });
+    }
   }
 }

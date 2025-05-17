@@ -1,19 +1,27 @@
 from django.db import models
-from apps.empresa.models import Empresa
 from apps.vehiculo.models import Vehiculo
-from apps.conductor.models import Conductor
+from apps.carga.models import Carga
+from apps.cliente.models import Cliente
+from apps.destinatariofinal.models import DestinatarioFinal
 
 class Viaje(models.Model):
     id_viaje = models.AutoField(primary_key=True)
-    fecha = models.DateField()
+    fecha_salida = models.DateTimeField()
+    fecha_llegada = models.DateTimeField()
     origen = models.CharField(max_length=200)
     destino = models.CharField(max_length=200)
-    distancia_km = models.DecimalField(max_digits=10, decimal_places=2)
-    tiempo_estimado_horas = models.DecimalField(max_digits=5, decimal_places=2)
+    distancia_km = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    tiempo_estimado_horas = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     costo_total = models.DecimalField(max_digits=12, decimal_places=2)
-    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, related_name='viajes')
-    vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE, related_name='viajes')
-    conductor = models.ForeignKey(Conductor, on_delete=models.CASCADE, related_name='viajes')
+    
+    # Relaciones
+    id_vehiculo = models.ForeignKey(Vehiculo, on_delete=models.PROTECT, db_column='id_vehiculo')
+    id_carga = models.ForeignKey(Carga, on_delete=models.PROTECT, db_column='id_carga')
+    id_cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, db_column='id_cliente')
+    id_destinatario = models.ForeignKey(DestinatarioFinal, on_delete=models.PROTECT, db_column='id_destinatario')
+    # Usar string para romper la dependencia circular
+    id_estado = models.ForeignKey('estadoviaje.EstadoViaje', on_delete=models.PROTECT, db_column='id_estado')
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -23,4 +31,4 @@ class Viaje(models.Model):
         verbose_name_plural = 'Viajes'
     
     def __str__(self):
-        return f"{self.origen} → {self.destino} ({self.fecha})"
+        return f"Viaje {self.id_viaje}: {self.origen} - {self.destino}"

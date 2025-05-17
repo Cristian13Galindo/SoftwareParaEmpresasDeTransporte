@@ -1,22 +1,19 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from .models import Estadoviaje
-from .serializers import EstadoviajeSerializer
+from .models import EstadoViaje
+from .serializers import EstadoViajeSerializer
 
-class EstadoviajeViewSet(viewsets.ModelViewSet):
-    queryset = Estadoviaje.objects.all()
-    serializer_class = EstadoviajeSerializer
+class EstadoViajeViewSet(viewsets.ModelViewSet):
+    queryset = EstadoViaje.objects.all()
+    serializer_class = EstadoViajeSerializer
     permission_classes = [IsAuthenticated]
     
-    # Filtros opcionales por viaje o estado
+    # Simplificar filtros ya que no tenemos la relación con viaje
     def get_queryset(self):
-        queryset = Estadoviaje.objects.all()
-        viaje_id = self.request.query_params.get('viaje', None)
+        queryset = EstadoViaje.objects.all()
         estado = self.request.query_params.get('estado', None)
         
-        if viaje_id is not None:
-            queryset = queryset.filter(viaje=viaje_id)
         if estado is not None:
-            queryset = queryset.filter(nombre_estado__icontains=estado)
+            queryset = queryset.filter(estado__icontains=estado)
             
-        return queryset.order_by('-fecha_cambio')  # Más recientes primero
+        return queryset

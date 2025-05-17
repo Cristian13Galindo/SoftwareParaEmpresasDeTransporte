@@ -1,13 +1,17 @@
 from rest_framework import serializers
 from .models import Viaje
-from apps.empresa.serializers import EmpresaSerializer
 from apps.vehiculo.serializers import VehiculoSerializer
-from apps.conductor.serializers import ConductorSerializer
+from apps.carga.serializers import CargaSerializer
+from apps.cliente.serializers import ClienteSerializer
+from apps.destinatariofinal.serializers import DestinatarioFinalSerializer
+from apps.estadoviaje.serializers import EstadoViajeSerializer
 
 class ViajeSerializer(serializers.ModelSerializer):
-    empresa_detail = EmpresaSerializer(source='empresa', read_only=True)
-    vehiculo_detail = VehiculoSerializer(source='vehiculo', read_only=True)
-    conductor_detail = ConductorSerializer(source='conductor', read_only=True)
+    vehiculo_detail = VehiculoSerializer(source='id_vehiculo', read_only=True)
+    carga_detail = CargaSerializer(source='id_carga', read_only=True)
+    cliente_detail = ClienteSerializer(source='id_cliente', read_only=True)
+    destinatario_detail = DestinatarioFinalSerializer(source='id_destinatario', read_only=True)
+    estado_detail = EstadoViajeSerializer(source='id_estado', read_only=True)
     
     class Meta:
         model = Viaje
@@ -19,10 +23,13 @@ class ViajeSerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        if instance.empresa:
-            representation['empresa_nombre'] = instance.empresa.nombre
-        if instance.vehiculo:
-            representation['vehiculo_placa'] = instance.vehiculo.placa
-        if instance.conductor:
-            representation['conductor_nombre'] = instance.conductor.nombre
+        # Información adicional para la visualización
+        representation['vehiculo_placa'] = instance.id_vehiculo.placa
+        representation['cliente_nombre'] = instance.id_cliente.nombre_empresa
+        representation['destinatario_nombre'] = instance.id_destinatario.nombre_empresa
+        representation['estado_nombre'] = instance.id_estado.estado
+        # Duración estimada del viaje (en horas)
+        if instance.fecha_llegada and instance.fecha_salida:
+            duracion = instance.fecha_llegada - instance.fecha_salida
+            representation['duracion_horas'] = duracion.total_seconds() / 3600
         return representation

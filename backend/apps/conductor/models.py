@@ -1,15 +1,15 @@
 from django.db import models
-from apps.empresa.models import Empresa
-from apps.usuarios.models import Usuario
 
 class Conductor(models.Model):
     id_conductor = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
-    licencia = models.CharField(max_length=50, unique=True)
+    apellido = models.CharField(max_length=100)  # Añadido
+    cedula = models.CharField(max_length=20, unique=True)  # Añadido
     telefono = models.CharField(max_length=20)
-    correo = models.EmailField(max_length=100)
-    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, related_name='conductores')
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='conductores')
+    direccion = models.CharField(max_length=200)  # Añadido
+    licencia_conduccion = models.CharField(max_length=50, unique=True)  # Renombrado de licencia
+    fecha_vencimiento_licencia = models.DateField()  # Añadido
+    # Relaciones con Empresa y Usuario eliminadas
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -19,4 +19,4 @@ class Conductor(models.Model):
         verbose_name_plural = 'Conductores'
     
     def __str__(self):
-        return f"{self.nombre} - {self.licencia}"
+        return f"{self.nombre} {self.apellido} - {self.licencia_conduccion}"

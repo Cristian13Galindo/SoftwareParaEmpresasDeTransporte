@@ -1,16 +1,14 @@
 from django.db import models
-from apps.carga.models import Carga
-from apps.cliente.models import Cliente
+# Eliminar importaciones de Carga y Cliente
 
-class Destinatariofinal(models.Model):
+class DestinatarioFinal(models.Model):  # Corregir nombre a CamelCase
     id_destinatario = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=100)
-    documento = models.CharField(max_length=50)
+    nombre_empresa = models.CharField(max_length=200)  # Cambiado de nombre a nombre_empresa
     direccion = models.CharField(max_length=200)
     telefono = models.CharField(max_length=20)
-    correo = models.EmailField(max_length=100)
-    carga = models.ForeignKey(Carga, on_delete=models.CASCADE, related_name='destinatarios')
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='destinatarios')
+    # Eliminar campo documento que no está en el modelo correcto
+    # Eliminar campo correo que no está en el modelo correcto
+    # Eliminar relaciones con carga y cliente
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -20,4 +18,4 @@ class Destinatariofinal(models.Model):
         verbose_name_plural = 'Destinatarios Finales'
     
     def __str__(self):
-        return f"{self.nombre} - {self.documento}"
+        return self.nombre_empresa

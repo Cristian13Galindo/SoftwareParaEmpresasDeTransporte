@@ -8,5 +8,4 @@ class ClienteSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'created_at': {'read_only': True},
             'updated_at': {'read_only': True},
-            'documento': {'validators': []},  # Para permitir edición sin conflictos
         }

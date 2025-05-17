@@ -21,5 +21,9 @@ export const routes: Routes = [
   {
     path: 'viajes',
     loadChildren: () => import('./modules/viajes/viajes.routes').then(m => m.VIAJES_ROUTES)
+  },
+  {
+    path: 'api-test',
+    loadComponent: () => import('./components/api-test/api-test.component').then(m => m.ApiTestComponent)
   }
 ];

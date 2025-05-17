@@ -1,9 +1,9 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import DestinatariofinalViewSet
+from .views import DestinatarioFinalViewSet  # Corregir a 'F' mayúscula
 
 router = DefaultRouter()
-router.register(r'destinatarios', DestinatariofinalViewSet, basename='destinatarios')
+router.register(r'destinatarios', DestinatarioFinalViewSet, basename='destinatarios')  # Corregir aquí también
 
 urlpatterns = [
     path('api/v1/', include(router.urls)),

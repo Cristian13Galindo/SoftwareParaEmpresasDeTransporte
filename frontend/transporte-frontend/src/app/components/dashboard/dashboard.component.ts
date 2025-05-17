@@ -41,6 +41,10 @@ import { RouterModule } from '@angular/router';
           </div>
         </div>
       </div>
+      
+      <div class="mt-4">
+        <a routerLink="/api-test" class="btn btn-outline-primary">Probar Conexión API</a>
+      </div>
     </div>
   `
 })

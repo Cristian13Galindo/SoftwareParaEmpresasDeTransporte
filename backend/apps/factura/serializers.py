@@ -1,11 +1,11 @@
 from rest_framework import serializers
 from .models import Factura
-from apps.cliente.serializers import ClienteSerializer
 from apps.viaje.serializers import ViajeSerializer
+from apps.cliente.serializers import ClienteSerializer
 
 class FacturaSerializer(serializers.ModelSerializer):
-    cliente_detail = ClienteSerializer(source='cliente', read_only=True)
-    viaje_detail = ViajeSerializer(source='viaje', read_only=True)
+    viaje_detail = ViajeSerializer(source='id_viaje', read_only=True)
+    cliente_detail = ClienteSerializer(source='id_cliente', read_only=True)
     
     class Meta:
         model = Factura
@@ -17,9 +17,6 @@ class FacturaSerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        if instance.cliente:
-            representation['cliente_nombre'] = instance.cliente.nombre
-        if instance.viaje:
-            representation['viaje_origen'] = instance.viaje.origen
-            representation['viaje_destino'] = instance.viaje.destino
+        representation['cliente_nombre'] = instance.id_cliente.nombre_empresa
+        representation['viaje_origen_destino'] = f"{instance.id_viaje.origen} - {instance.id_viaje.destino}"
         return representation

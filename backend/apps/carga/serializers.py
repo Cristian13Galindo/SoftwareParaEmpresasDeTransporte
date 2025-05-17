@@ -1,9 +1,8 @@
 from rest_framework import serializers
 from .models import Carga
-from apps.viaje.serializers import ViajeSerializer
 
 class CargaSerializer(serializers.ModelSerializer):
-    viaje_detail = ViajeSerializer(source='viaje', read_only=True)
+    # Eliminar viaje_detail ya que la relación ahora va en el otro sentido
     
     class Meta:
         model = Carga
@@ -15,7 +14,6 @@ class CargaSerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        if instance.viaje:
-            representation['viaje_origen'] = instance.viaje.origen
-            representation['viaje_destino'] = instance.viaje.destino
+        # Calcular el valor total basado en peso y precio por tonelada
+        representation['valor_total'] = float(instance.peso_toneladas) * float(instance.precio_por_tonelada)
         return representation

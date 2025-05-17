@@ -1,9 +1,7 @@
 from django.contrib import admin
-from .models import Estadoviaje
+from .models import EstadoViaje  # Corregir nombre de la clase (con V mayúscula)
 
-@admin.register(Estadoviaje)
-class EstadoviajeAdmin(admin.ModelAdmin):
-    list_display = ['id_estado', 'nombre_estado', 'fecha_cambio', 'viaje']
-    list_filter = ['nombre_estado', 'fecha_cambio', 'viaje']
-    search_fields = ['nombre_estado', 'descripcion']
-    readonly_fields = ['created_at', 'updated_at', 'fecha_cambio']
+@admin.register(EstadoViaje)  # Actualizar también aquí
+class EstadoViajeAdmin(admin.ModelAdmin):
+    list_display = ('id_estado', 'estado', 'created_at', 'updated_at')
+    search_fields = ('estado',)
