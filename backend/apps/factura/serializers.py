@@ -4,9 +4,9 @@ from apps.viaje.serializers import ViajeSerializer
 from apps.cliente.serializers import ClienteSerializer
 
 class FacturaSerializer(serializers.ModelSerializer):
-    viaje_detail = ViajeSerializer(source='id_viaje', read_only=True)
-    cliente_detail = ClienteSerializer(source='id_cliente', read_only=True)
-    
+    viaje_detail = ViajeSerializer(source='viaje', read_only=True)
+    cliente_detail = ClienteSerializer(source='cliente', read_only=True)
+
     class Meta:
         model = Factura
         fields = '__all__'
@@ -14,9 +14,9 @@ class FacturaSerializer(serializers.ModelSerializer):
             'created_at': {'read_only': True},
             'updated_at': {'read_only': True},
         }
-    
+
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['cliente_nombre'] = instance.id_cliente.nombre_empresa
-        representation['viaje_origen_destino'] = f"{instance.id_viaje.origen} - {instance.id_viaje.destino}"
+        representation['cliente_nombre'] = instance.cliente.nombre_empresa
+        representation['viaje_origen_destino'] = f"{instance.viaje.origen} - {instance.viaje.destino}"
         return representation

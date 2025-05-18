@@ -6,5 +6,5 @@ router = DefaultRouter()
 router.register(r'estados-viaje', EstadoViajeViewSet, basename='estados-viaje')
 
 urlpatterns = [
-    path('api/v1/', include(router.urls)),
+    path('', include(router.urls)),
 ]

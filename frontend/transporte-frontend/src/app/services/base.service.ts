@@ -1,86 +1,45 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BaseService<T> {
+export abstract class BaseService<T> {
   protected apiUrl: string;
-
+  
   constructor(
-    protected http: HttpClient,
-    protected endpoint: string
+    protected http: HttpClient
   ) {
-    this.apiUrl = `${environment.apiUrl}/${endpoint}`;
+    // La URL base se construirá en las clases hijas
   }
 
-  getAll(params?: any): Observable<T[]> {
-    let httpParams = new HttpParams();
-    if (params) {
-      Object.keys(params).forEach(key => {
-        if (params[key] !== null && params[key] !== undefined) {
-          httpParams = httpParams.set(key, params[key]);
-        }
-      });
-    }
-    
-    return this.http.get<T[]>(this.apiUrl, { params: httpParams })
-      .pipe(catchError(this.handleError));
+  // Método a implementar en las clases hijas para obtener el endpoint
+  protected abstract getEndpoint(): string;
+
+  // Inicializar la URL de la API
+  protected initializeApiUrl(): void {
+    this.apiUrl = `${environment.apiUrl}/${this.getEndpoint()}`;
+  }
+
+  getAll(): Observable<T[]> {
+    return this.http.get<T[]>(this.apiUrl);
   }
 
   getById(id: number): Observable<T> {
-    return this.http.get<T>(`${this.apiUrl}/${id}`)
-      .pipe(catchError(this.handleError));
+    return this.http.get<T>(`${this.apiUrl}/${id}`);
   }
 
   create(item: T): Observable<T> {
-    return this.http.post<T>(this.apiUrl, item)
-      .pipe(catchError(this.handleError));
+    return this.http.post<T>(this.apiUrl, item);
   }
 
   update(id: number, item: T): Observable<T> {
-    return this.http.put<T>(`${this.apiUrl}/${id}`, item)
-      .pipe(catchError(this.handleError));
+    return this.http.put<T>(`${this.apiUrl}/${id}`, item);
   }
 
-  delete(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`)
-      .pipe(catchError(this.handleError));
-  }
-
-  protected handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Ha ocurrido un error desconocido';
-    
-    if (error.error instanceof ErrorEvent) {
-      // Error del lado del cliente
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Error del lado del servidor
-      if (error.status === 0) {
-        errorMessage = 'No se puede conectar con el servidor. Verifique su conexiÃ³n a internet.';
-      } else if (error.status === 401) {
-        errorMessage = 'No autorizado. Por favor inicie sesiÃ³n nuevamente.';
-      } else if (error.status === 403) {
-        errorMessage = 'Acceso prohibido. No tiene permisos para realizar esta acciÃ³n.';
-      } else if (error.status === 404) {
-        errorMessage = 'Recurso no encontrado.';
-      } else if (error.status >= 500) {
-        errorMessage = `Error del servidor: ${error.status}. Por favor contacte al administrador.`;
-      } else if (error.error && typeof error.error === 'object') {
-        // Intentar extraer mensaje de error del backend
-        const serverError = error.error;
-        if (typeof serverError.message === 'string') {
-          errorMessage = serverError.message;
-        } else if (typeof serverError.detail === 'string') {
-          errorMessage = serverError.detail;
-        }
-      }
-    }
-    
-    console.error('Error en la solicitud HTTP:', error);
-    return throwError(() => new Error(errorMessage));
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

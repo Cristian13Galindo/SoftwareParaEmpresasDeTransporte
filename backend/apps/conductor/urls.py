@@ -6,5 +6,5 @@ router = DefaultRouter()
 router.register(r'conductores', ConductorViewSet, basename='conductores')
 
 urlpatterns = [
-    path('api/v1/', include(router.urls)),
+    path('', include(router.urls)),
 ]

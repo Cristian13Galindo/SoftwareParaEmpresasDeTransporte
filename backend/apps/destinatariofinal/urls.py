@@ -6,5 +6,5 @@ router = DefaultRouter()
 router.register(r'destinatarios', DestinatarioFinalViewSet, basename='destinatarios')  # Corregir aquí también
 
 urlpatterns = [
-    path('api/v1/', include(router.urls)),
+    path('', include(router.urls)),
 ]

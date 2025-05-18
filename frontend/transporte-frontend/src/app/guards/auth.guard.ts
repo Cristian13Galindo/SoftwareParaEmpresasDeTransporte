@@ -1,32 +1,24 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
-  
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+export class AuthGuard {
+  constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean {
-    // Para propósitos de prueba, siempre devuelve true
+  canActivate(): boolean {
+    // Temporalmente deshabilitar protecci�n para todas las rutas
     return true;
     
-    /* Código original - lo usaremos después cuando tengamos la autenticación real
-    if (this.authService.isAuthenticated()) {
-      return true;
+    // C�digo original comentado
+    /*
+    const isLoggedIn = this.authService.isLoggedIn();
+    if (!isLoggedIn) {
+      this.router.navigate(['/login']);
     }
-    
-    // Redirigir al login si no está autenticado
-    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-    return false;
+    return isLoggedIn;
     */
   }
 }

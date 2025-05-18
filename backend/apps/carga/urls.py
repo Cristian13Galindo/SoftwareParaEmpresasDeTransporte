@@ -6,5 +6,5 @@ router = DefaultRouter()
 router.register(r'cargas', CargaViewSet, basename='cargas')
 
 urlpatterns = [
-    path('api/v1/', include(router.urls)),
+    path('', include(router.urls)),
 ]

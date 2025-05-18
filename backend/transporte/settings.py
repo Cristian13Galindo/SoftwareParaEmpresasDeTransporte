@@ -153,14 +153,11 @@ CORS_ALLOW_ALL_ORIGINS = True  # Solo para desarrollo
 # Django REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',  # <-- AGREGAR ESTO
-        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',  # Temporalmente permitir acceso a todos
     ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20,
 }
 
 # JWT Settings
@@ -196,3 +193,4 @@ INSTALLED_APPS = [
     'rest_framework',  # <-- AÑADIR ESTA LÍNEA
     'rest_framework_simplejwt',  # <-- AÑADIR ESTA LÍNEA
 ]
+

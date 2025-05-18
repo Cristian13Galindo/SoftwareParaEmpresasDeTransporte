@@ -9,18 +9,18 @@ import { RouterModule } from '@angular/router';
   template: `
     <div class="container">
       <h2 class="mt-4 mb-4">Dashboard</h2>
-      
+
       <div class="row">
         <div class="col-md-4 mb-3">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">VehÃ­culos</h5>
-              <p class="card-text">Gestionar la flota de vehÃ­culos</p>
+              <h5 class="card-title">Vehículos</h5>
+              <p class="card-text">Gestionar la flota de vehículos</p>
               <a routerLink="/vehiculos" class="btn btn-primary">Acceder</a>
             </div>
           </div>
         </div>
-        
+
         <div class="col-md-4 mb-3">
           <div class="card">
             <div class="card-body">
@@ -30,7 +30,7 @@ import { RouterModule } from '@angular/router';
             </div>
           </div>
         </div>
-        
+
         <div class="col-md-4 mb-3">
           <div class="card">
             <div class="card-body">
@@ -40,10 +40,20 @@ import { RouterModule } from '@angular/router';
             </div>
           </div>
         </div>
+        
+        <div class="col-md-4 mb-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Clientes</h5>
+              <p class="card-text">Gestionar los clientes</p>
+              <a routerLink="/clientes" class="btn btn-primary">Acceder</a>
+            </div>
+          </div>
+        </div>
       </div>
-      
+
       <div class="mt-4">
-        <a routerLink="/api-test" class="btn btn-outline-primary">Probar ConexiÃ³n API</a>
+        <a routerLink="/api-test" class="btn btn-outline-primary">Probar Conexión API</a>        
       </div>
     </div>
   `

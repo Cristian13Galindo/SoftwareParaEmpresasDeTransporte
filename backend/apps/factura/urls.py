@@ -6,5 +6,5 @@ router = DefaultRouter()
 router.register(r'facturas', FacturaViewSet, basename='facturas')
 
 urlpatterns = [
-    path('api/v1/', include(router.urls)),
+    path('', include(router.urls)),
 ]

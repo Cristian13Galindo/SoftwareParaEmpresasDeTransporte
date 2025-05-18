@@ -2,12 +2,12 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { 
-    path: 'login', 
+  {
+    path: 'login',
     loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent) 
   },
-  { 
-    path: 'dashboard', 
+  {
+    path: 'dashboard',
     loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent)
   },
   {
@@ -20,7 +20,11 @@ export const routes: Routes = [
   },
   {
     path: 'viajes',
-    loadChildren: () => import('./modules/viajes/viajes.routes').then(m => m.VIAJES_ROUTES)
+    loadChildren: () => import('./modules/viajes/viajes.routes').then(m => m.VIAJES_ROUTES)       
+  },
+  {
+    path: 'clientes',
+    loadComponent: () => import('./routes/cliente.routes').then(m => m.ClienteListComponent)
   },
   {
     path: 'api-test',

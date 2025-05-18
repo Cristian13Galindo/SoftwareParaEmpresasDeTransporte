@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
 import { Vehiculo } from '../models/vehiculo.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VehiculoService {
-  private apiUrl = `${environment.apiUrl}/vehiculos/`;
+  private apiUrl = `${environment.apiUrl}/vehiculos`;
 
   constructor(private http: HttpClient) {}
 
@@ -17,7 +17,7 @@ export class VehiculoService {
   }
 
   getById(id: number): Observable<Vehiculo> {
-    return this.http.get<Vehiculo>(`${this.apiUrl}${id}/`);
+    return this.http.get<Vehiculo>(`${this.apiUrl}/${id}`);
   }
 
   create(vehiculo: Vehiculo): Observable<Vehiculo> {
@@ -25,14 +25,10 @@ export class VehiculoService {
   }
 
   update(id: number, vehiculo: Vehiculo): Observable<Vehiculo> {
-    return this.http.put<Vehiculo>(`${this.apiUrl}${id}/`, vehiculo);
+    return this.http.put<Vehiculo>(`${this.apiUrl}/${id}`, vehiculo);
   }
 
-  delete(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}${id}/`);
-  }
-
-  getByEmpresa(empresaId: number): Observable<Vehiculo[]> {
-    return this.http.get<Vehiculo[]>(`${environment.apiUrl}/empresas/${empresaId}/vehiculos/`);
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

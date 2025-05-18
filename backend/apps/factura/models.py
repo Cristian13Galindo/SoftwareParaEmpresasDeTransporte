@@ -24,4 +24,4 @@ class Factura(models.Model):
         verbose_name_plural = 'Facturas'
     
     def __str__(self):
-        return f"{self.numero_factura} - {self.cliente.nombre}"
+        return f"{self.numero_factura} - {self.cliente.nombre_empresa}"

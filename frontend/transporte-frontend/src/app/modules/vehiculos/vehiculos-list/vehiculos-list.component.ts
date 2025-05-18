@@ -59,7 +59,7 @@ import { Vehiculo } from '../../../models/vehiculo.model';
                   <td>
                     <button class="btn btn-sm btn-info me-1" [routerLink]="[vehiculo.id_vehiculo]">Ver</button>
                     <button class="btn btn-sm btn-warning me-1" [routerLink]="[vehiculo.id_vehiculo, 'edit']">Editar</button>
-                    <button class="btn btn-sm btn-danger" (click)="deleteVehiculo(vehiculo.id_vehiculo)">Eliminar</button>
+                    <button class="btn btn-sm btn-danger" (click)="vehiculo.id_vehiculo && deleteVehiculo(vehiculo.id_vehiculo)">Eliminar</button>
                   </td>
                 </tr>
               </tbody>
@@ -100,7 +100,8 @@ export class VehiculosListComponent implements OnInit {
     });
   }
 
-  deleteVehiculo(id: number): void {
+  deleteVehiculo(id: number | undefined): void {
+    if (id === undefined) return;
     if (confirm('¿Está seguro de eliminar este vehículo?')) {
       this.vehiculoService.delete(id).subscribe({
         next: () => {
@@ -114,3 +115,4 @@ export class VehiculosListComponent implements OnInit {
     }
   }
 }
+

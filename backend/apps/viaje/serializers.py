@@ -10,9 +10,9 @@ class ViajeSerializer(serializers.ModelSerializer):
     vehiculo_detail = VehiculoSerializer(source='id_vehiculo', read_only=True)
     carga_detail = CargaSerializer(source='id_carga', read_only=True)
     cliente_detail = ClienteSerializer(source='id_cliente', read_only=True)
-    destinatario_detail = DestinatarioFinalSerializer(source='id_destinatario', read_only=True)
+    destinatario_detail = DestinatarioFinalSerializer(source='id_destinatario', read_only=True)      
     estado_detail = EstadoViajeSerializer(source='id_estado', read_only=True)
-    
+
     class Meta:
         model = Viaje
         fields = '__all__'
@@ -20,7 +20,7 @@ class ViajeSerializer(serializers.ModelSerializer):
             'created_at': {'read_only': True},
             'updated_at': {'read_only': True},
         }
-    
+
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         # Información adicional para la visualización
