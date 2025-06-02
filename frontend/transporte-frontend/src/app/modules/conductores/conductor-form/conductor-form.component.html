@@ -1,0 +1,110 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h2 class="mb-0">{{ isEditing ? 'Editar' : 'Nuevo' }} Conductor</h2>
+    </div>
+    
+    <div class="card-body">
+      <div *ngIf="loading" class="text-center">
+        <div class="spinner-border text-primary"></div>
+      </div>
+      
+      <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+      
+      <form (ngSubmit)="onSubmit()" #conductorForm="ngForm" *ngIf="!loading">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="nombre" 
+              name="nombre"
+              [(ngModel)]="conductor.nombre" 
+              required
+            >
+          </div>
+          
+          <div class="col-md-6 mb-3">
+            <label for="apellido" class="form-label">Apellido</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="apellido" 
+              name="apellido"
+              [(ngModel)]="conductor.apellido" 
+              required
+            >
+          </div>
+          
+          <div class="col-md-6 mb-3">
+            <label for="cedula" class="form-label">Cédula</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="cedula" 
+              name="cedula"
+              [(ngModel)]="conductor.cedula" 
+              required
+            >
+          </div>
+          
+          <div class="col-md-6 mb-3">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="telefono" 
+              name="telefono"
+              [(ngModel)]="conductor.telefono" 
+              required
+            >
+          </div>
+          
+          <div class="col-12 mb-3">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="direccion" 
+              name="direccion"
+              [(ngModel)]="conductor.direccion" 
+              required
+            >
+          </div>
+          
+          <div class="col-md-6 mb-3">
+            <label for="licencia" class="form-label">Licencia de conducción</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="licencia" 
+              name="licencia_conduccion"
+              [(ngModel)]="conductor.licencia_conduccion" 
+              required
+            >
+          </div>
+          
+          <div class="col-md-6 mb-3">
+            <label for="vencimiento" class="form-label">Fecha de vencimiento</label>
+            <input 
+              type="date" 
+              class="form-control" 
+              id="vencimiento" 
+              name="fecha_vencimiento_licencia"
+              [(ngModel)]="conductor.fecha_vencimiento_licencia" 
+              required
+            >
+          </div>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-secondary" routerLink="/dashboard/conductores">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="conductorForm.invalid || saving">
+            {{ saving ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Guardar') }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

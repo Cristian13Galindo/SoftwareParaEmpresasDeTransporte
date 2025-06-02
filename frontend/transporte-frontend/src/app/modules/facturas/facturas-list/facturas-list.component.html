@@ -1,0 +1,98 @@
+<div class="container-fluid">
+  <!-- Título principal -->
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h1 class="titulo-principal fw-bold text-primary mb-3">Gestión de Facturas</h1>
+      <hr class="mx-auto" style="width: 250px; height: 3px; opacity: 1;">
+    </div>
+  </div>
+
+  <!-- Barra de búsqueda -->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="search-container">
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="fas fa-search"></i>
+          </span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Buscar factura..."
+            [(ngModel)]="searchTerm"
+            (keyup)="onSearch()"
+          >
+          <select class="form-select" [(ngModel)]="searchField" (change)="onSearch()">
+            <option value="numero">Número Factura</option>
+            <option value="cliente">Cliente</option>
+            <option value="estado">Estado Pago</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mostrar error si existe -->
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  
+  <!-- Spinner de carga -->
+  <div *ngIf="loading" class="d-flex justify-content-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  <!-- Tabla de facturas -->
+  <div *ngIf="!loading && filteredFacturas.length > 0" class="card">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Facturas Registradas</h5>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover mb-0">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Cliente</th>
+              <th>Fecha Emisión</th>
+              <th>Total</th>
+              <th>Estado Pago</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let factura of filteredFacturas">
+              <td>{{ factura.numero_factura }}</td>
+              <td>{{ factura.cliente_nombre }}</td>
+              <td>{{ factura.fecha_emision | date:'dd/MM/yyyy' }}</td>
+              <td>{{ factura.total | currency }}</td>
+              <td>
+                <span [class]="'badge ' + getEstadoClass(factura.estado_pago)">
+                  {{ factura.estado_pago }}
+                </span>
+              </td>
+              <td>
+                <div class="btn-group btn-group-sm">
+                  <button class="btn btn-info me-1" [routerLink]="['/dashboard/facturas', factura.id_factura]">
+                    Ver
+                  </button>
+                  <button class="btn btn-warning me-1" [routerLink]="['/dashboard/facturas', factura.id_factura, 'edit']">
+                    Editar
+                  </button>
+                  <button class="btn btn-danger" (click)="deleteFactura(factura.id_factura)">
+                    Eliminar
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mensaje cuando no hay facturas -->
+  <div *ngIf="!loading && filteredFacturas.length === 0 && !error" class="alert alert-info">
+    No hay facturas registradas
+  </div>
+</div>

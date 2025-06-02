@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, ActivatedRoute } from '@angular/router';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
+import { Vehiculo } from '../../../models/vehiculo.model';
+import { VehiculoService } from '../../../services/vehiculo.service';
+import { EmpresaService } from '../../../services/empresa.service';
 
 @Component({
   selector: 'app-vehiculo-detail',
@@ -10,63 +13,74 @@ import { RouterModule, ActivatedRoute } from '@angular/router';
   styleUrls: ['./vehiculo-detail.component.css']
 })
 export class VehiculoDetailComponent implements OnInit {
-  vehiculoId?: number;
-  vehiculo: any = {};
+  vehiculo: Vehiculo | null = null;
+  empresa: any = null;
   loading = false;
   error = '';
-
+  
   constructor(
-    private route: ActivatedRoute
-  ) { }
-
+    private route: ActivatedRoute,
+    private router: Router,
+    private vehiculoService: VehiculoService,
+    private empresaService: EmpresaService
+  ) {}
+  
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.vehiculoId = +params['id'];
-      this.loadVehiculo();
+    this.loading = true;
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) {
+      this.error = 'ID no válido';
+      this.loading = false;
+      return;
+    }
+    
+    this.vehiculoService.getById(Number(id)).subscribe({
+      next: (data) => {
+        this.vehiculo = data;
+        this.loadEmpresa(data.id_empresa);
+        this.loading = false;
+      },
+      error: (err) => {
+        this.error = 'Error al cargar los datos del vehículo';
+        this.loading = false;
+        console.error(err);
+      }
     });
   }
 
-  loadVehiculo(): void {
-    if (!this.vehiculoId) return;
-    
-    this.loading = true;
-    
-    // Simulamos la carga de datos
-    setTimeout(() => {
-      // Datos de prueba según el ID
-      if (this.vehiculoId === 1) {
-        this.vehiculo = {
-          id: 1,
-          placa: 'ABC123',
-          marca: 'Volvo',
-          modelo: 'FH16',
-          anno: 2022,
-          capacidad: 20000,
-          tipo: 'Camión',
-          estado: 'Activo',
-          fecha_compra: '2022-01-15',
-          kilometraje: 15000,
-          conductor_nombre: 'Juan Pérez'
-        };
-      } else if (this.vehiculoId === 2) {
-        this.vehiculo = {
-          id: 2,
-          placa: 'XYZ789',
-          marca: 'Mercedes',
-          modelo: 'Actros',
-          anno: 2021,
-          capacidad: 18000,
-          tipo: 'Furgón',
-          estado: 'Mantenimiento',
-          fecha_compra: '2021-06-20',
-          kilometraje: 22000,
-          conductor_nombre: 'Carlos Rodríguez'
-        };
-      } else {
-        this.error = 'No se encontró el vehículo';
-      }
-      
-      this.loading = false;
-    }, 500);
+  loadEmpresa(id: number): void {
+    this.empresaService.getById(id).subscribe({
+      next: (data) => this.empresa = data,
+      error: (err) => console.error('Error cargando empresa:', err)
+    });
+  }
+
+  getEstadoClass(estado: string): string {
+    switch (estado.toLowerCase()) {
+      case 'activo':
+        return 'bg-success';
+      case 'mantenimiento':
+        return 'bg-warning';
+      case 'inactivo':
+        return 'bg-danger';
+      default:
+        return 'bg-secondary';
+    }
+  }
+
+  onDelete(): void {
+    if (!this.vehiculo?.id_vehiculo) return;
+
+    if (confirm('¿Está seguro de eliminar este vehículo?')) {
+      this.vehiculoService.delete(this.vehiculo.id_vehiculo).subscribe({
+        next: () => {
+          this.router.navigate(['/dashboard/vehiculos']);
+        },
+        error: (err) => {
+          this.error = 'Error al eliminar el vehículo';
+          console.error(err);
+        }
+      });
+    }
   }
 }

@@ -1,83 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { VehiculoService } from '../../../services/vehiculo.service';
+import { FormsModule } from '@angular/forms';
 import { Vehiculo } from '../../../models/vehiculo.model';
+import { VehiculoService } from '../../../services/vehiculo.service';
 
 @Component({
   selector: 'app-vehiculos-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
-  template: `
-    <div class="container mt-4">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Gestión de Vehículos</h2>
-        <a routerLink="new" class="btn btn-primary">Agregar Vehículo</a>
-      </div>
-      
-      <div class="card">
-        <div class="card-body">
-          <div *ngIf="loading" class="text-center p-5">
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Cargando...</span>
-            </div>
-          </div>
-          
-          <div *ngIf="error" class="alert alert-danger">
-            {{ error }}
-          </div>
-          
-          <div *ngIf="!loading && !error">
-            <div *ngIf="vehiculos.length === 0" class="text-center p-5">
-              <p>No se encontraron vehículos registrados.</p>
-            </div>
-            
-            <table *ngIf="vehiculos.length > 0" class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Placa</th>
-                  <th>Marca</th>
-                  <th>Modelo</th>
-                  <th>Capacidad (Ton)</th>
-                  <th>Estado</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let vehiculo of vehiculos">
-                  <td>{{ vehiculo.placa }}</td>
-                  <td>{{ vehiculo.marca }}</td>
-                  <td>{{ vehiculo.modelo }}</td>
-                  <td>{{ vehiculo.capacidad_maxima_toneladas }}</td>
-                  <td>
-                    <span [ngClass]="{
-                      'badge bg-success': vehiculo.estado === 'Activo',
-                      'badge bg-warning': vehiculo.estado === 'Mantenimiento',
-                      'badge bg-danger': vehiculo.estado === 'Inactivo'
-                    }">{{ vehiculo.estado }}</span>
-                  </td>
-                  <td>
-                    <button class="btn btn-sm btn-info me-1" [routerLink]="[vehiculo.id_vehiculo]">Ver</button>
-                    <button class="btn btn-sm btn-warning me-1" [routerLink]="[vehiculo.id_vehiculo, 'edit']">Editar</button>
-                    <button class="btn btn-sm btn-danger" (click)="vehiculo.id_vehiculo && deleteVehiculo(vehiculo.id_vehiculo)">Eliminar</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      
-      <div class="mt-3">
-        <a routerLink="/dashboard" class="btn btn-secondary">Volver al Dashboard</a>
-      </div>
-    </div>
-  `
+  imports: [CommonModule, RouterModule, FormsModule],
+  templateUrl: './vehiculos-list.component.html',
+  styleUrls: ['./vehiculos-list.component.css']
 })
 export class VehiculosListComponent implements OnInit {
   vehiculos: Vehiculo[] = [];
-  loading = false;
-  error = '';
+  filteredVehiculos: Vehiculo[] = [];
+  searchTerm: string = '';
+  searchField: string = 'placa';
+  loading: boolean = false;
+  error: string | null = null;
 
   constructor(private vehiculoService: VehiculoService) {}
 
@@ -90,26 +31,66 @@ export class VehiculosListComponent implements OnInit {
     this.vehiculoService.getAll().subscribe({
       next: (data) => {
         this.vehiculos = data;
+        this.filteredVehiculos = data;
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error cargando vehículos:', error);
-        this.error = 'Error al cargar los vehículos. Intente nuevamente más tarde.';
+        this.error = 'Error al cargar los vehículos';
         this.loading = false;
+        console.error('Error:', error);
       }
     });
   }
 
+  onSearch() {
+    if (!this.searchTerm) {
+      this.filteredVehiculos = [...this.vehiculos];
+      return;
+    }
+
+    const searchValue = this.searchTerm.toLowerCase().trim();
+    
+    this.filteredVehiculos = this.vehiculos.filter(vehiculo => {
+      switch (this.searchField) {
+        case 'placa':
+          return vehiculo.placa.toLowerCase().includes(searchValue);
+        case 'marca':
+          return vehiculo.marca.toLowerCase().includes(searchValue);
+        case 'modelo':
+          return vehiculo.modelo.toLowerCase().includes(searchValue);
+        case 'estado':
+          return vehiculo.estado.toLowerCase().includes(searchValue);
+        default:
+          return false;
+      }
+    });
+  }
+
+  getEstadoClass(estado: string): string {
+    switch (estado.toLowerCase()) {
+      case 'activo':
+        return 'bg-success';
+      case 'mantenimiento':
+        return 'bg-warning';
+      case 'inactivo':
+        return 'bg-danger';
+      default:
+        return 'bg-secondary';
+    }
+  }
+
   deleteVehiculo(id: number | undefined): void {
-    if (id === undefined) return;
-    if (confirm('¿Está seguro de eliminar este vehículo?')) {
+    if (!id) return;
+    
+    if (confirm('¿Está seguro que desea eliminar este vehículo?')) {
       this.vehiculoService.delete(id).subscribe({
         next: () => {
           this.vehiculos = this.vehiculos.filter(v => v.id_vehiculo !== id);
+          this.filteredVehiculos = this.filteredVehiculos.filter(v => v.id_vehiculo !== id);
         },
         error: (error) => {
-          console.error('Error eliminando vehículo:', error);
-          this.error = 'Error al eliminar el vehículo. Intente nuevamente más tarde.';
+          this.error = 'Error al eliminar el vehículo';
+          console.error('Error:', error);
         }
       });
     }

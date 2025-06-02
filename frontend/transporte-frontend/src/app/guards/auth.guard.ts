@@ -9,16 +9,10 @@ export class AuthGuard {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): boolean {
-    // Temporalmente deshabilitar protección para todas las rutas
-    return true;
-    
-    // Código original comentado
-    /*
-    const isLoggedIn = this.authService.isLoggedIn();
-    if (!isLoggedIn) {
+    if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/login']);
+      return false;
     }
-    return isLoggedIn;
-    */
+    return true;
   }
 }

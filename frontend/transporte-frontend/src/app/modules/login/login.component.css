@@ -1,0 +1,33 @@
+.card {
+  margin-top: 2rem;
+  
+  .card-header {
+    background-color: #007bff;
+    h4 {
+      margin-bottom: 0;
+    }
+  }
+  
+  .form-control {
+    &.ng-invalid.ng-touched {
+      border-color: #dc3545;
+    }
+  }
+  
+  .text-danger {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+  
+  .btn-primary {
+    width: 100%;
+    
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+}
+
+.alert {
+  margin-bottom: 0;
+}

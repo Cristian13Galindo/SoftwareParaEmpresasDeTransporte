@@ -1,0 +1,102 @@
+<div class="container-fluid">
+  <!-- Título principal -->
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h1 class="titulo-principal fw-bold text-primary mb-3">Gestión de Viajes</h1>
+      <hr class="mx-auto" style="width: 250px; height: 3px; opacity: 1;">
+    </div>
+  </div>
+
+  <!-- Barra de búsqueda -->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="search-container">
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="fas fa-search"></i>
+          </span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Buscar viaje..."
+            [(ngModel)]="searchTerm"
+            (keyup)="onSearch()"
+          >
+          <select class="form-select" [(ngModel)]="searchField" (change)="onSearch()">
+            <option value="origen">Origen</option>
+            <option value="destino">Destino</option>
+            <option value="vehiculo">Vehículo</option>
+            <option value="cliente">Cliente</option>
+            <option value="estado">Estado</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mostrar error si existe -->
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  
+  <!-- Spinner de carga -->
+  <div *ngIf="loading" class="d-flex justify-content-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  <!-- Tabla de viajes -->
+  <div *ngIf="!loading && filteredViajes.length > 0" class="card">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Viajes Registrados</h5>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover mb-0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Origen - Destino</th>
+              <th>Cliente</th>
+              <th>Vehículo</th>
+              <th>Fecha Salida</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let viaje of filteredViajes">
+              <td>{{ viaje.id_viaje }}</td>
+              <td>{{ viaje.origen }} - {{ viaje.destino }}</td>
+              <td>{{ viaje.cliente_nombre }}</td>
+              <td>{{ viaje.vehiculo_placa }}</td>
+              <td>{{ viaje.fecha_salida | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>
+                <span [class]="'badge ' + getEstadoClass(viaje.estado_nombre || '')">
+                  {{ viaje.estado_nombre }}
+                </span>
+              </td>
+              <td>
+                <div class="btn-group btn-group-sm">
+                  <button class="btn btn-info me-1" [routerLink]="['/dashboard/viajes', viaje.id_viaje]">
+                    Ver
+                  </button>
+                  <button class="btn btn-warning me-1" [routerLink]="['/dashboard/viajes', viaje.id_viaje, 'edit']">
+                    Editar
+                  </button>
+                  <button class="btn btn-danger" (click)="deleteViaje(viaje.id_viaje)">
+                    Eliminar
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mensaje cuando no hay viajes -->
+  <div *ngIf="!loading && filteredViajes.length === 0 && !error" class="alert alert-info">
+    No hay viajes registrados
+  </div>
+</div>

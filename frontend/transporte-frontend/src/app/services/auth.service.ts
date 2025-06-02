@@ -3,25 +3,33 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { TokenService } from './token.service';
+import { environment } from '../../environments/environment';
+
+interface LoginCredentials {
+  username: string;
+  password: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/api/v1';
+  private apiUrl = environment.apiUrl;
 
   constructor(
     private http: HttpClient,
     private tokenService: TokenService
   ) { }
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/login/`, { username, password })
+  login(credentials: LoginCredentials): Observable<any> {
+    return this.http.post<any>(`${environment.authUrl}`, credentials)
       .pipe(
         tap(response => {
-          if (response && response.access) {
+          if (response?.access) {
             this.tokenService.saveToken(response.access);
-            this.tokenService.saveRefreshToken(response.refresh);
+            if (response?.refresh) {
+              this.tokenService.saveRefreshToken(response.refresh);
+            }
           }
         })
       );

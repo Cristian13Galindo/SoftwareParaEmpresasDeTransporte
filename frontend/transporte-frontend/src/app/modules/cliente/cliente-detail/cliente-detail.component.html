@@ -1,0 +1,63 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <h2 class="mb-0">Detalles del Cliente</h2>
+    </div>
+
+    <div *ngIf="loading" class="card-body text-center">
+      <div class="spinner-border text-primary"></div>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger m-3">{{error}}</div>
+
+    <div *ngIf="cliente" class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <h5 class="section-title">Información de la Empresa</h5>
+          <dl class="row details-list">
+            <dt class="col-sm-4">Nombre Empresa:</dt>
+            <dd class="col-sm-8">{{cliente.nombre_empresa}}</dd>
+
+            <dt class="col-sm-4">NIT:</dt>
+            <dd class="col-sm-8">{{cliente.nit}}</dd>
+
+            <dt class="col-sm-4">Contacto:</dt>
+            <dd class="col-sm-8">{{cliente.contacto}}</dd>
+
+            <dt class="col-sm-4">Teléfono:</dt>
+            <dd class="col-sm-8">{{cliente.telefono}}</dd>
+
+            <dt class="col-sm-4">Dirección:</dt>
+            <dd class="col-sm-8">{{cliente.direccion}}</dd>
+          </dl>
+        </div>
+
+        <div class="col-md-6">
+          <h5 class="section-title">Información del Sistema</h5>
+          <dl class="row details-list">
+            <dt class="col-sm-4">ID Cliente:</dt>
+            <dd class="col-sm-8">{{cliente.id_cliente}}</dd>
+
+            <dt class="col-sm-4">Creado:</dt>
+            <dd class="col-sm-8">{{cliente.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</dd>
+
+            <dt class="col-sm-4">Actualizado:</dt>
+            <dd class="col-sm-8">{{cliente.updated_at | date:'dd/MM/yyyy HH:mm:ss'}}</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="cliente" class="card-footer">
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-secondary" routerLink="/dashboard/clientes">Volver</button>
+        <div>
+          <button class="btn btn-warning me-2" [routerLink]="['/dashboard/clientes', cliente.id_cliente, 'edit']">
+            Editar
+          </button>
+          <button class="btn btn-danger" (click)="onDelete()">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

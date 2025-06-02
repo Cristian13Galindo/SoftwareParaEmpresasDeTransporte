@@ -5,4 +5,6 @@ export interface Cliente {
   contacto: string;
   direccion: string;
   telefono: string;
+  created_at?: string; // Add optional timestamp
+  updated_at?: string; // Add optional timestamp
 }

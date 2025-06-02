@@ -1,0 +1,63 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <h2 class="mb-0">Detalles de la Empresa</h2>
+    </div>
+
+    <div *ngIf="loading" class="card-body text-center">
+      <div class="spinner-border text-primary"></div>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger m-3">{{error}}</div>
+
+    <div *ngIf="empresa" class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <h5 class="section-title">Información de la Empresa</h5>
+          <dl class="row details-list">
+            <dt class="col-sm-4">ID:</dt>
+            <dd class="col-sm-8">{{empresa.id_empresa}}</dd>
+
+            <dt class="col-sm-4">Nombre:</dt>
+            <dd class="col-sm-8">{{empresa.nombre}}</dd>
+
+            <dt class="col-sm-4">NIT:</dt>
+            <dd class="col-sm-8">{{empresa.nit}}</dd>
+
+            <dt class="col-sm-4">Dirección:</dt>
+            <dd class="col-sm-8">{{empresa.direccion}}</dd>
+
+            <dt class="col-sm-4">Teléfono:</dt>
+            <dd class="col-sm-8">{{empresa.telefono}}</dd>
+
+            <dt class="col-sm-4">Correo:</dt>
+            <dd class="col-sm-8">{{empresa.correo}}</dd>
+          </dl>
+        </div>
+
+        <div class="col-md-6">
+          <h5 class="section-title">Información del Sistema</h5>
+          <dl class="row details-list">
+            <dt class="col-sm-4">Creado:</dt>
+            <dd class="col-sm-8">{{empresa.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</dd>
+
+            <dt class="col-sm-4">Actualizado:</dt>
+            <dd class="col-sm-8">{{empresa.updated_at | date:'dd/MM/yyyy HH:mm:ss'}}</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="empresa" class="card-footer">
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-secondary" routerLink="/dashboard/empresas">Volver</button>
+        <div>
+          <button class="btn btn-warning me-2" [routerLink]="['/dashboard/empresas', empresa.id_empresa, 'edit']">
+            Editar
+          </button>
+          <button class="btn btn-danger" (click)="onDelete()">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

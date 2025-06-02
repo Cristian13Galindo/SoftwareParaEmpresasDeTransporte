@@ -1,0 +1,97 @@
+<div class="container-fluid">
+  <!-- Título principal -->
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h1 class="titulo-principal fw-bold text-primary mb-3">Gestión de Empresas</h1>
+      <hr class="mx-auto" style="width: 250px; height: 3px; opacity: 1;">
+    </div>
+  </div>
+
+  <!-- Barra de búsqueda -->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="search-container">
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="fas fa-search"></i>
+          </span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Buscar empresa..."
+            [(ngModel)]="searchTerm"
+            (keyup)="onSearch()"
+          >
+          <select class="form-select" [(ngModel)]="searchField" (change)="onSearch()">
+            <option value="id">ID</option>
+            <option value="nombre">Nombre</option>
+            <option value="nit">NIT</option>
+            <option value="correo">Correo</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mostrar error si existe -->
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  
+  <!-- Spinner de carga -->
+  <div *ngIf="loading" class="d-flex justify-content-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  <!-- Tabla de empresas -->
+  <div *ngIf="!loading && filteredEmpresas.length > 0" class="card">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Empresas Registradas</h5>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover mb-0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>NIT</th>
+              <th>Dirección</th>
+              <th>Teléfono</th>
+              <th>Correo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let empresa of filteredEmpresas">
+              <td>{{ empresa.id_empresa }}</td>
+              <td>{{ empresa.nombre }}</td>
+              <td>{{ empresa.nit }}</td>
+              <td>{{ empresa.direccion }}</td>
+              <td>{{ empresa.telefono }}</td>
+              <td>{{ empresa.correo }}</td>
+              <td>
+                <div class="btn-group btn-group-sm">
+                  <button class="btn btn-info me-1" [routerLink]="['/dashboard/empresas', empresa.id_empresa]">
+                    Ver
+                  </button>
+                  <button class="btn btn-warning me-1" [routerLink]="['/dashboard/empresas', empresa.id_empresa, 'edit']">
+                    Editar
+                  </button>
+                  <button class="btn btn-danger" (click)="deleteEmpresa(empresa.id_empresa)">
+                    Eliminar
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mensaje cuando no hay empresas -->
+  <div *ngIf="!loading && filteredEmpresas.length === 0 && !error" class="alert alert-info">
+    No hay empresas registradas
+  </div>
+</div>

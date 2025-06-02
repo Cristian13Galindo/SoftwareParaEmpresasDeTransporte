@@ -1,0 +1,85 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <h2 class="mb-0">Detalles de la Factura</h2>
+    </div>
+
+    <div *ngIf="loading" class="card-body text-center">
+      <div class="spinner-border text-primary"></div>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger m-3">{{error}}</div>
+
+    <div *ngIf="factura" class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <h5 class="section-title">Información General</h5>
+          <dl class="row details-list">
+            <dt class="col-sm-4">Número Factura:</dt>
+            <dd class="col-sm-8">{{factura.numero_factura}}</dd>
+
+            <dt class="col-sm-4">Cliente:</dt>
+            <dd class="col-sm-8">{{factura.cliente_nombre}}</dd>
+
+            <dt class="col-sm-4">Viaje:</dt>
+            <dd class="col-sm-8">{{factura.viaje_origen_destino}}</dd>
+
+            <dt class="col-sm-4">Fecha Emisión:</dt>
+            <dd class="col-sm-8">{{factura.fecha_emision | date:'dd/MM/yyyy'}}</dd>
+
+            <dt class="col-sm-4">Fecha Vencimiento:</dt>
+            <dd class="col-sm-8">{{factura.fecha_vencimiento | date:'dd/MM/yyyy'}}</dd>
+          </dl>
+
+          <h5 class="section-title mt-4">Información de Pago</h5>
+          <dl class="row details-list">
+            <dt class="col-sm-4">Subtotal:</dt>
+            <dd class="col-sm-8">{{factura.subtotal | currency}}</dd>
+
+            <dt class="col-sm-4">IVA:</dt>
+            <dd class="col-sm-8">{{factura.iva | currency}}</dd>
+
+            <dt class="col-sm-4">Total:</dt>
+            <dd class="col-sm-8">{{factura.total | currency}}</dd>
+
+            <dt class="col-sm-4">Estado Pago:</dt>
+            <dd class="col-sm-8">
+              <span [class]="'badge ' + getEstadoClass(factura.estado_pago)">
+                {{factura.estado_pago}}
+              </span>
+            </dd>
+
+            <dt class="col-sm-4">Método Pago:</dt>
+            <dd class="col-sm-8">{{factura.metodo_pago}}</dd>
+          </dl>
+        </div>
+
+        <div class="col-md-6">
+          <h5 class="section-title">Observaciones</h5>
+          <p class="mb-4">{{factura.observaciones || 'Sin observaciones'}}</p>
+
+          <h5 class="section-title">Información del Sistema</h5>
+          <dl class="row details-list">
+            <dt class="col-sm-4">Creado:</dt>
+            <dd class="col-sm-8">{{factura.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</dd>
+
+            <dt class="col-sm-4">Actualizado:</dt>
+            <dd class="col-sm-8">{{factura.updated_at | date:'dd/MM/yyyy HH:mm:ss'}}</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="factura" class="card-footer">
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-secondary" routerLink="/dashboard/facturas">Volver</button>
+        <div>
+          <button class="btn btn-warning me-2" [routerLink]="['/dashboard/facturas', factura.id_factura, 'edit']">
+            Editar
+          </button>
+          <button class="btn btn-danger" (click)="onDelete()">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

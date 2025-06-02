@@ -1,0 +1,174 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h2 class="mb-0">{{ isEditing ? 'Editar' : 'Nuevo' }} Viaje</h2>
+    </div>
+    
+    <div class="card-body">
+      <div *ngIf="loading" class="text-center">
+        <div class="spinner-border text-primary"></div>
+      </div>
+      
+      <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+      
+      <form (ngSubmit)="onSubmit()" #viajeForm="ngForm" *ngIf="!loading">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="origen" class="form-label">Origen</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="origen" 
+              name="origen"
+              [(ngModel)]="viaje.origen" 
+              required
+            >
+          </div>
+          
+          <div class="col-md-6 mb-3">
+            <label for="destino" class="form-label">Destino</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="destino" 
+              name="destino"
+              [(ngModel)]="viaje.destino" 
+              required
+            >
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="fecha_salida" class="form-label">Fecha de Salida</label>
+            <input 
+              type="datetime-local" 
+              class="form-control" 
+              id="fecha_salida" 
+              name="fecha_salida"
+              [(ngModel)]="viaje.fecha_salida" 
+              required
+            >
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="fecha_llegada" class="form-label">Fecha de Llegada</label>
+            <input 
+              type="datetime-local" 
+              class="form-control" 
+              id="fecha_llegada" 
+              name="fecha_llegada"
+              [(ngModel)]="viaje.fecha_llegada" 
+              required
+            >
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="id_vehiculo" class="form-label">Vehículo</label>
+            <select 
+              class="form-select" 
+              id="id_vehiculo" 
+              name="id_vehiculo"
+              [(ngModel)]="viaje.id_vehiculo" 
+              required
+            >
+              <option value="">Seleccione un vehículo</option>
+              <option *ngFor="let vehiculo of vehiculos" [value]="vehiculo.id_vehiculo">
+                {{vehiculo.placa}} - {{vehiculo.marca}} {{vehiculo.modelo}}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="id_cliente" class="form-label">Cliente</label>
+            <select 
+              class="form-select" 
+              id="id_cliente" 
+              name="id_cliente"
+              [(ngModel)]="viaje.id_cliente" 
+              required
+            >
+              <option value="">Seleccione un cliente</option>
+              <option *ngFor="let cliente of clientes" [value]="cliente.id_cliente">
+                {{cliente.nombre_empresa}}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="id_destinatario" class="form-label">Destinatario</label>
+            <select 
+              class="form-select" 
+              id="id_destinatario" 
+              name="id_destinatario"
+              [(ngModel)]="viaje.id_destinatario" 
+              required
+            >
+              <option value="">Seleccione un destinatario</option>
+              <option *ngFor="let destinatario of destinatarios" [value]="destinatario.id_destinatario">
+                {{destinatario.nombre_empresa}}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="id_estado" class="form-label">Estado</label>
+            <select 
+              class="form-select" 
+              id="id_estado" 
+              name="id_estado"
+              [(ngModel)]="viaje.id_estado" 
+              required
+            >
+              <option value="">Seleccione un estado</option>
+              <option *ngFor="let estado of estados" [value]="estado.id_estado">
+                {{estado.estado}}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="distancia_km" class="form-label">Distancia (km)</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              id="distancia_km" 
+              name="distancia_km"
+              [(ngModel)]="viaje.distancia_km" 
+              required
+            >
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="tiempo_estimado_horas" class="form-label">Tiempo Estimado (horas)</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              id="tiempo_estimado_horas" 
+              name="tiempo_estimado_horas"
+              [(ngModel)]="viaje.tiempo_estimado_horas" 
+              required
+            >
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="costo_total" class="form-label">Costo Total</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              id="costo_total" 
+              name="costo_total"
+              [(ngModel)]="viaje.costo_total" 
+              required
+            >
+          </div>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-secondary" routerLink="/dashboard/viajes">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="viajeForm.invalid || saving">
+            {{ saving ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Guardar') }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

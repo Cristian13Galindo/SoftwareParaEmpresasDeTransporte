@@ -1,0 +1,173 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h2 class="mb-0">{{ isEditing ? 'Editar' : 'Nueva' }} Factura</h2>
+    </div>
+    
+    <div class="card-body">
+      <div *ngIf="loading" class="text-center">
+        <div class="spinner-border text-primary"></div>
+      </div>
+      
+      <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+      
+      <form (ngSubmit)="onSubmit()" #facturaForm="ngForm" *ngIf="!loading">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="numero_factura" class="form-label">Número de Factura</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="numero_factura" 
+              name="numero_factura"
+              [(ngModel)]="factura.numero_factura" 
+              required
+            >
+          </div>
+          
+          <div class="col-md-6 mb-3">
+            <label for="cliente" class="form-label">Cliente</label>
+            <select 
+              class="form-select" 
+              id="cliente" 
+              name="cliente"
+              [(ngModel)]="factura.cliente" 
+              required
+            >
+              <option value="">Seleccione un cliente</option>
+              <option *ngFor="let cliente of clientes" [value]="cliente.id_cliente">
+                {{cliente.nombre_empresa}}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="viaje" class="form-label">Viaje</label>
+            <select 
+              class="form-select" 
+              id="viaje" 
+              name="viaje"
+              [(ngModel)]="factura.viaje" 
+              required
+            >
+              <option value="">Seleccione un viaje</option>
+              <option *ngFor="let viaje of viajes" [value]="viaje.id_viaje">
+                {{viaje.origen}} - {{viaje.destino}}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="fecha_emision" class="form-label">Fecha de Emisión</label>
+            <input 
+              type="date" 
+              class="form-control" 
+              id="fecha_emision" 
+              name="fecha_emision"
+              [(ngModel)]="factura.fecha_emision" 
+              required
+            >
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="fecha_vencimiento" class="form-label">Fecha de Vencimiento</label>
+            <input 
+              type="date" 
+              class="form-control" 
+              id="fecha_vencimiento" 
+              name="fecha_vencimiento"
+              [(ngModel)]="factura.fecha_vencimiento" 
+              required
+            >
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="subtotal" class="form-label">Subtotal</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              id="subtotal" 
+              name="subtotal"
+              [(ngModel)]="factura.subtotal" 
+              required
+            >
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="iva" class="form-label">IVA</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              id="iva" 
+              name="iva"
+              [(ngModel)]="factura.iva" 
+              required
+            >
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="total" class="form-label">Total</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              id="total" 
+              name="total"
+              [(ngModel)]="factura.total" 
+              required
+            >
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="estado_pago" class="form-label">Estado de Pago</label>
+            <select 
+              class="form-select" 
+              id="estado_pago" 
+              name="estado_pago"
+              [(ngModel)]="factura.estado_pago" 
+              required
+            >
+              <option value="">Seleccione un estado</option>
+              <option value="Pendiente">Pendiente</option>
+              <option value="Pagada">Pagada</option>
+              <option value="Vencida">Vencida</option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="metodo_pago" class="form-label">Método de Pago</label>
+            <select 
+              class="form-select" 
+              id="metodo_pago" 
+              name="metodo_pago"
+              [(ngModel)]="factura.metodo_pago" 
+              required
+            >
+              <option value="">Seleccione un método</option>
+              <option value="Efectivo">Efectivo</option>
+              <option value="Transferencia">Transferencia</option>
+              <option value="Tarjeta">Tarjeta</option>
+            </select>
+          </div>
+
+          <div class="col-12 mb-3">
+            <label for="observaciones" class="form-label">Observaciones</label>
+            <textarea 
+              class="form-control" 
+              id="observaciones" 
+              name="observaciones"
+              [(ngModel)]="factura.observaciones" 
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-secondary" routerLink="/dashboard/facturas">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="facturaForm.invalid || saving">
+            {{ saving ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Guardar') }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

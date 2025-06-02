@@ -1,13 +1,56 @@
-<div class="container mt-4">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Gestión de Vehículos</h2>
-    <button class="btn btn-primary" [routerLink]="['new']">Agregar Vehículo</button>
+<div class="container-fluid">
+  <!-- Título principal -->
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h1 class="titulo-principal fw-bold text-primary mb-3">Gestión de Vehículos</h1>
+      <hr class="mx-auto" style="width: 250px; height: 3px; opacity: 1;">
+    </div>
   </div>
 
-  <div class="card">
-    <div class="card-body">
+  <!-- Barra de búsqueda -->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="search-container">
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="fas fa-search"></i>
+          </span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Buscar vehículo..."
+            [(ngModel)]="searchTerm"
+            (keyup)="onSearch()"
+          >
+          <select class="form-select" [(ngModel)]="searchField" (change)="onSearch()">
+            <option value="placa">Placa</option>
+            <option value="marca">Marca</option>
+            <option value="modelo">Modelo</option>
+            <option value="estado">Estado</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mostrar error si existe -->
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  
+  <!-- Spinner de carga -->
+  <div *ngIf="loading" class="d-flex justify-content-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  <!-- Tabla de vehículos -->
+  <div *ngIf="!loading && filteredVehiculos.length > 0" class="card">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Vehículos Registrados</h5>
+    </div>
+    <div class="card-body p-0">
       <div class="table-responsive">
-        <table class="table table-striped">
+        <table class="table table-striped table-hover mb-0">
           <thead>
             <tr>
               <th>Placa</th>
@@ -19,33 +62,38 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let vehiculo of vehiculos">
+            <tr *ngFor="let vehiculo of filteredVehiculos">
               <td>{{ vehiculo.placa }}</td>
               <td>{{ vehiculo.marca }}</td>
               <td>{{ vehiculo.modelo }}</td>
               <td>{{ vehiculo.capacidad_maxima_toneladas }}</td>
               <td>
-                <span [ngClass]="{
-                  'badge bg-success': vehiculo.estado === 'Activo',
-                  'badge bg-warning': vehiculo.estado === 'Mantenimiento',
-                  'badge bg-danger': vehiculo.estado === 'Inactivo'
-                }">{{ vehiculo.estado }}</span>
+                <span [class]="'badge ' + getEstadoClass(vehiculo.estado)">
+                  {{ vehiculo.estado }}
+                </span>
               </td>
               <td>
-                <div class="btn-group">
-                  <button class="btn btn-sm btn-info me-1" [routerLink]="[vehiculo.id_vehiculo]">Ver</button>
-                  <button class="btn btn-sm btn-warning me-1" [routerLink]="[vehiculo.id_vehiculo, 'edit']">Editar</button>
-                  <button class="btn btn-sm btn-danger" (click)="deleteVehiculo(vehiculo.id_vehiculo)">Eliminar</button>
+                <div class="btn-group btn-group-sm">
+                  <button class="btn btn-info me-1" [routerLink]="['/dashboard/vehiculos', vehiculo.id_vehiculo]">
+                    Ver
+                  </button>
+                  <button class="btn btn-warning me-1" [routerLink]="['/dashboard/vehiculos', vehiculo.id_vehiculo, 'edit']">
+                    Editar
+                  </button>
+                  <button class="btn btn-danger" (click)="deleteVehiculo(vehiculo.id_vehiculo)">
+                    Eliminar
+                  </button>
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      
-      <div *ngIf="vehiculos.length === 0" class="text-center p-3">
-        <p>No hay vehículos registrados</p>
-      </div>
     </div>
+  </div>
+  
+  <!-- Mensaje cuando no hay vehículos -->
+  <div *ngIf="!loading && filteredVehiculos.length === 0 && !error" class="alert alert-info">
+    No hay vehículos registrados
   </div>
 </div>

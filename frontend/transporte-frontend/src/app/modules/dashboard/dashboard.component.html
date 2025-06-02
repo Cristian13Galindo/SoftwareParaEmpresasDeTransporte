@@ -1,0 +1,176 @@
+<div class="header-bar">
+  <div class="user-info">
+    <img src="assets/images/user-avatar.jpg" alt="User" class="user-avatar">
+    <span class="user-name">Bienvenido Admin </span>
+    <span class="program-selector">
+      <span class="program-name">SISTEMA DE TRANSPORTES</span>
+      <i class="dropdown-icon"></i>
+    </span>
+  </div>
+</div>
+
+<!-- Main layout -->
+<div class="main-layout">
+  <!-- Sidebar navigation -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <img src="assets/images/logo.jpg" alt="Logo" class="company-logo">
+    </div>
+    <!-- Modificar todas las rutas agregando /dashboard al inicio -->
+    <a routerLink="/dashboard" class="menu-item">
+      <i class="menu-icon fas fa-home"></i>Inicio
+    </a>
+    
+    <a routerLink="/dashboard/usuarios" class="menu-item">
+      <i class="menu-icon fas fa-user"></i>Usuario
+    </a>
+    
+    <div class="menu-item-container">
+      <a routerLink="/dashboard/empresas" class="menu-item menu-dropdown">
+        <div class="menu-icon-group">
+          <i class="menu-icon fas fa-id-card"></i>Empresas
+        </div>
+        <i class="fas fa-chevron-down dropdown-icon"></i>
+      </a>
+      <div class="submenu">
+        <a routerLink="/dashboard/empresas/nuevo" class="submenu-item">
+          <i class="fas fa-plus"></i>Nueva Empresa
+        </a>
+      </div>
+    </div>
+    
+    <div class="menu-item-container">
+      <a routerLink="/dashboard/vehiculos" class="menu-item menu-dropdown">
+        <div class="menu-icon-group">
+          <i class="menu-icon fas fa-id-card"></i>Vehiculos
+        </div>
+        <i class="fas fa-chevron-down dropdown-icon"></i>
+      </a>
+      <div class="submenu">
+        <a routerLink="/dashboard/vehiculos/nuevo" class="submenu-item">
+          <i class="fas fa-plus"></i>Nuevo Vehiculo
+        </a>
+      </div>
+    </div>
+    
+    <div class="menu-item-container">
+      <a routerLink="/dashboard/conductores" class="menu-item menu-dropdown">
+        <div class="menu-icon-group">
+          <i class="menu-icon fas fa-id-card"></i>Conductor
+        </div>
+        <i class="fas fa-chevron-down dropdown-icon"></i>
+      </a>
+      <div class="submenu">
+        <a routerLink="/dashboard/conductores/nuevo" class="submenu-item">
+          <i class="fas fa-plus"></i>Nuevo Conductor
+        </a>
+      </div>
+    </div>
+    
+    <div class="menu-item-container">
+      <a routerLink="/dashboard/viajes" class="menu-item menu-dropdown">
+        <div class="menu-icon-group">
+          <i class="menu-icon fas fa-id-card"></i>Viajes
+        </div>
+        <i class="fas fa-chevron-down dropdown-icon"></i>
+      </a>
+      <div class="submenu">
+        <a routerLink="/dashboard/viajes/nuevo" class="submenu-item">
+          <i class="fas fa-plus"></i>Nuevo Viaje
+        </a>
+      </div>
+    </div>
+    
+    <div class="menu-item-container">
+      <a routerLink="/dashboard/cargas" class="menu-item menu-dropdown">
+        <div class="menu-icon-group">
+          <i class="menu-icon fas fa-id-card"></i>Cargas
+        </div>
+        <i class="fas fa-chevron-down dropdown-icon"></i>
+      </a>
+      <div class="submenu">
+        <a routerLink="/dashboard/cargas/nuevo" class="submenu-item">
+          <i class="fas fa-plus"></i>Nueva Carga
+        </a>
+      </div>
+    </div>
+
+    <div class="menu-item-container">
+      <a routerLink="/dashboard/clientes" class="menu-item menu-dropdown">
+        <div class="menu-icon-group">
+          <i class="menu-icon fas fa-id-card"></i>Clientes
+        </div>
+        <i class="fas fa-chevron-down dropdown-icon"></i>
+      </a>
+      <div class="submenu">
+        <a routerLink="/dashboard/clientes/nuevo" class="submenu-item">
+          <i class="fas fa-plus"></i>Nuevo Cliente
+        </a>
+      </div>
+    </div>
+
+    <div class="menu-item-container">
+      <a routerLink="/dashboard/destinatarios" class="menu-item menu-dropdown">
+        <div class="menu-icon-group">
+          <i class="menu-icon fas fa-id-card"></i>Destinatario final
+        </div>
+        <i class="fas fa-chevron-down dropdown-icon"></i>
+      </a>
+      <div class="submenu">
+        <a routerLink="/dashboard/destinatarios/nuevo" class="submenu-item">
+          <i class="fas fa-plus"></i>Nuevo Destinatario
+        </a>
+      </div>
+    </div>
+    
+    <div class="menu-item-container">
+      <a routerLink="/dashboard/estados-viaje" class="menu-item menu-dropdown">
+        <div class="menu-icon-group">
+          <i class="menu-icon fas fa-id-card"></i>Estado de Viaje
+        </div>
+        <i class="fas fa-chevron-down dropdown-icon"></i>
+      </a>
+      <div class="submenu">
+        <a routerLink="/dashboard/estados-viaje/nuevo" class="submenu-item">
+          <i class="fas fa-plus"></i>Nuevo estado del viaje
+        </a>
+      </div>
+    </div>
+    
+    <div class="menu-item-container">
+      <a routerLink="/dashboard/facturas" class="menu-item menu-dropdown">
+        <div class="menu-icon-group">
+          <i class="menu-icon fas fa-id-card"></i>Facturas
+        </div>
+        <i class="fas fa-chevron-down dropdown-icon"></i>
+      </a>
+      <div class="submenu">
+        <a routerLink="/dashboard/facturas/nuevo" class="submenu-item">
+          <i class="fas fa-plus"></i>Nueva Factura
+        </a>
+      </div>
+    </div>
+    
+    <a routerLink="/dashboard/auditoria" class="menu-item">
+      <i class="menu-icon fas fa-history"></i>Auditoría
+    </a>
+    
+    <a routerLink="/dashboard/auditoria-login" class="menu-item">
+      <i class="menu-icon fas fa-user-clock"></i>Auditoría Login
+    </a>
+    
+    <div class="sidebar-footer">
+      <a (click)="logout()" class="menu-item logout">
+        <i class="menu-icon fas fa-sign-out-alt"></i>Cerrar Sesión
+      </a>
+    </div>
+  </div>
+
+  <!-- Content area goes here -->
+  <div class="content-area">
+    <div class="dashboard-container">
+      <!-- Tu navegación del dashboard aquí -->
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

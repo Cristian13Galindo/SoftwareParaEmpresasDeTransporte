@@ -1,0 +1,182 @@
+/* Color variables */
+:root {
+  --main-color: #1a73e8; /* Color azul principal */
+  --main-color-dark: #0d47a1; /* Variante oscura del azul */
+  --text-on-blue: white;
+  --sidebar-color: #1a237e; /* Color específico para el sidebar */
+  --logo-height: 50px; /* Altura para el espacio del logo */
+}
+
+/* Sidebar styles - modificado */
+.sidebar {
+  width: 240px;
+  background-color: #1a73e8 !important; /* Azul claro igual que el header */
+  color: white;
+  overflow-y: auto;
+  flex-shrink: 0;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+
+/* Espacio para el logo */
+.logo-space {
+  height: var(--logo-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+/* Sidebar header - modificado */
+.sidebar-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;  /* Reducido de 20px 0 10px 0 */
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.company-logo {
+  width: 220px;
+  height: 220px;
+  object-fit: contain;
+  margin: 0;  /* Eliminado margin-bottom */
+  padding-top: 10px; /* Agregado un pequeño padding superior */
+}
+
+.sidebar-user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 60px;   /* Aumentado de 40px */
+  height: 60px;  /* Aumentado de 40px */
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.user-name {
+  font-size: 14px;
+  color: white;
+  font-weight: 500;
+}
+
+/* Primer enlace del sidebar (Inicio) */
+/*.sidebar a:first-child {
+  margin-top: var(--logo-height);
+}*/
+
+.sidebar a, .menu-item {
+  color: white !important; /* Forzar color blanco en links */
+  text-decoration: none;
+  display: block;
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar a:hover, .menu-item:hover {
+  background-color: rgba(255,255,255,0.1);
+}
+
+/* Header styles - modificado */
+.header-bar {
+  background-color: #1a73e8 !important; /* Forzar color azul en header */
+  color: white;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 240px; /* Ancho del sidebar */
+  z-index: 1000;
+  height: 80px; /* Aumentado de 60px para acomodar el avatar más grande */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-text {
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+  margin: 0;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Main layout - modificado */
+.main-layout {
+  margin-left: 240px; /* Compensar el ancho del sidebar */
+  margin-top: 80px; /* Aumentado de 60px para compensar el header más alto */
+}
+
+/* Content area - modificado */
+.content-area {
+  background-color: #f5f5f5; /* Color de fondo para el contenido */
+  min-height: calc(100vh - 60px);
+  padding: 20px;
+}
+
+/* Estilos para el menú desplegable */
+.menu-item-container {
+  position: relative;
+}
+
+.menu-icon-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-dropdown {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-icon {
+  font-size: 12px;
+  color: rgb(0, 0, 0);
+  transition: transform 0.3s ease;
+}
+
+.menu-item-container:hover .dropdown-icon {
+  transform: rotate(180deg);
+}
+
+.submenu {
+  display: none;
+  background-color: rgba(26, 115, 232, 0.9);
+  position: relative;
+}
+
+.menu-item-container:hover .submenu {
+  display: block;
+}
+
+.submenu-item {
+  padding: 10px 30px !important;
+  font-size: 0.9em;
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+}
+
+.submenu-item i {
+  width: 20px;
+  text-align: center;
+}
+
+.submenu-item:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}

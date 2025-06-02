@@ -1,76 +1,104 @@
 <div class="container mt-4">
   <div class="card">
     <div class="card-header bg-primary text-white">
-      <h4 class="mb-0">{{ isEditMode ? 'Editar Vehículo' : 'Registrar Nuevo Vehículo' }}</h4>
+      <h2 class="mb-0">{{ isEditing ? 'Editar' : 'Nuevo' }} Vehículo</h2>
     </div>
     
     <div class="card-body">
-      <form [formGroup]="vehiculoForm" (ngSubmit)="onSubmit()">
+      <div *ngIf="loading" class="text-center">
+        <div class="spinner-border text-primary"></div>
+      </div>
+      
+      <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+      
+      <form (ngSubmit)="onSubmit()" #vehiculoForm="ngForm" *ngIf="!loading">
         <div class="row">
           <div class="col-md-6 mb-3">
-            <label for="placa" class="form-label">Placa *</label>
-            <input type="text" id="placa" formControlName="placa" class="form-control" [class.is-invalid]="isFieldInvalid('placa')">
-            <div *ngIf="isFieldInvalid('placa')" class="invalid-feedback">
-              La placa es obligatoria.
-            </div>
+            <label for="placa" class="form-label">Placa</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="placa" 
+              name="placa"
+              [(ngModel)]="vehiculo.placa" 
+              required
+            >
           </div>
           
           <div class="col-md-6 mb-3">
-            <label for="estado" class="form-label">Estado *</label>
-            <select id="estado" formControlName="estado" class="form-select" [class.is-invalid]="isFieldInvalid('estado')">
+            <label for="marca" class="form-label">Marca</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="marca" 
+              name="marca"
+              [(ngModel)]="vehiculo.marca" 
+              required
+            >
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="modelo" class="form-label">Modelo</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="modelo" 
+              name="modelo"
+              [(ngModel)]="vehiculo.modelo" 
+              required
+            >
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="capacidad" class="form-label">Capacidad Máxima (Toneladas)</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              id="capacidad_maxima_toneladas" 
+              name="capacidad_maxima_toneladas"
+              [(ngModel)]="vehiculo.capacidad_maxima_toneladas" 
+              required
+              step="0.1"
+            >
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="estado" class="form-label">Estado</label>
+            <select 
+              class="form-select" 
+              id="estado" 
+              name="estado"
+              [(ngModel)]="vehiculo.estado" 
+              required
+            >
+              <option value="">Seleccione un estado</option>
               <option value="Activo">Activo</option>
-              <option value="Mantenimiento">En mantenimiento</option>
+              <option value="Mantenimiento">En Mantenimiento</option>
               <option value="Inactivo">Inactivo</option>
             </select>
-            <div *ngIf="isFieldInvalid('estado')" class="invalid-feedback">
-              El estado es obligatorio.
-            </div>
           </div>
-        </div>
-        
-        <div class="row">
+
           <div class="col-md-6 mb-3">
-            <label for="marca" class="form-label">Marca *</label>
-            <input type="text" id="marca" formControlName="marca" class="form-control" [class.is-invalid]="isFieldInvalid('marca')">
-            <div *ngIf="isFieldInvalid('marca')" class="invalid-feedback">
-              La marca es obligatoria.
-            </div>
-          </div>
-          
-          <div class="col-md-6 mb-3">
-            <label for="modelo" class="form-label">Modelo *</label>
-            <input type="text" id="modelo" formControlName="modelo" class="form-control" [class.is-invalid]="isFieldInvalid('modelo')">
-            <div *ngIf="isFieldInvalid('modelo')" class="invalid-feedback">
-              El modelo es obligatorio.
-            </div>
-          </div>
-        </div>
-        
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="capacidad_maxima_toneladas" class="form-label">Capacidad Máxima (Toneladas) *</label>
-            <input type="number" id="capacidad_maxima_toneladas" formControlName="capacidad_maxima_toneladas" class="form-control" [class.is-invalid]="isFieldInvalid('capacidad_maxima_toneladas')" step="0.1">
-            <div *ngIf="isFieldInvalid('capacidad_maxima_toneladas')" class="invalid-feedback">
-              La capacidad máxima es obligatoria y debe ser mayor a 0.
-            </div>
-          </div>
-          
-          <div class="col-md-6 mb-3">
-            <label for="empresa_id" class="form-label">Empresa *</label>
-            <select id="empresa_id" formControlName="empresa_id" class="form-select" [class.is-invalid]="isFieldInvalid('empresa_id')">
+            <label for="empresa" class="form-label">Empresa</label>
+            <select 
+              class="form-select" 
+              id="id_empresa" 
+              name="id_empresa"
+              [(ngModel)]="vehiculo.id_empresa" 
+              required
+            >
               <option value="">Seleccione una empresa</option>
-              <option *ngFor="let empresa of empresas" [value]="empresa.id_empresa">{{ empresa.nombre }}</option>
+              <option *ngFor="let empresa of empresas" [value]="empresa.id_empresa">
+                {{empresa.nombre}}
+              </option>
             </select>
-            <div *ngIf="isFieldInvalid('empresa_id')" class="invalid-feedback">
-              Debe seleccionar una empresa.
-            </div>
           </div>
         </div>
         
-        <div class="d-flex justify-content-between mt-4">
-          <button type="button" class="btn btn-secondary" [routerLink]="['/vehiculos']">Cancelar</button>
-          <button type="submit" class="btn btn-primary" [disabled]="vehiculoForm.invalid || loading">
-            {{ loading ? 'Guardando...' : 'Guardar' }}
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-secondary" routerLink="/dashboard/vehiculos">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="vehiculoForm.invalid || saving">
+            {{ saving ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Guardar') }}
           </button>
         </div>
       </form>

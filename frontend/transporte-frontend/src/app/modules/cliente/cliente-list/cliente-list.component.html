@@ -1,0 +1,97 @@
+<div class="container-fluid">
+  <!-- Título principal -->
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h1 class="titulo-principal fw-bold text-primary mb-3">Gestión de Clientes</h1>
+      <hr class="mx-auto" style="width: 250px; height: 3px; opacity: 1;">
+    </div>
+  </div>
+
+  <!-- Barra de búsqueda -->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="search-container">
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="fas fa-search"></i>
+          </span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Buscar cliente..."
+            [(ngModel)]="searchTerm"
+            (keyup)="onSearch()"
+          >
+          <select class="form-select" [(ngModel)]="searchField" (change)="onSearch()">
+            <option value="id">ID</option>
+            <option value="empresa">Empresa</option>
+            <option value="nit">NIT</option>
+            <option value="contacto">Contacto</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mostrar error si existe -->
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  
+  <!-- Spinner de carga -->
+  <div *ngIf="loading" class="d-flex justify-content-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  <!-- Tabla de clientes -->
+  <div *ngIf="!loading && filteredClientes.length > 0" class="card">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Clientes Registrados</h5>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover mb-0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Empresa</th>
+              <th>NIT</th>
+              <th>Contacto</th>
+              <th>Dirección</th>
+              <th>Teléfono</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cliente of filteredClientes">
+              <td>{{ cliente.id_cliente }}</td>
+              <td>{{ cliente.nombre_empresa }}</td>
+              <td>{{ cliente.nit }}</td>
+              <td>{{ cliente.contacto }}</td>
+              <td>{{ cliente.direccion }}</td>
+              <td>{{ cliente.telefono }}</td>
+              <td>
+                <div class="btn-group btn-group-sm">
+                  <button class="btn btn-info me-1" [routerLink]="['/dashboard/clientes', cliente.id_cliente]">
+                    Ver
+                  </button>
+                  <button class="btn btn-warning me-1" [routerLink]="['/dashboard/clientes', cliente.id_cliente, 'edit']">
+                    Editar
+                  </button>
+                  <button class="btn btn-danger" (click)="deleteCliente(cliente.id_cliente)">
+                    Eliminar
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mensaje cuando no hay clientes -->
+  <div *ngIf="!loading && filteredClientes.length === 0 && !error" class="alert alert-info">
+    No hay clientes registrados
+  </div>
+</div>

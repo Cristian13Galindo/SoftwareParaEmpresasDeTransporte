@@ -1,0 +1,95 @@
+<!-- conductores-list.component.html -->
+<div class="container-fluid">
+  <!-- Título principal -->
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h1 class="titulo-principal fw-bold text-primary mb-3">Gestión de Cargas</h1>
+      <hr class="mx-auto" style="width: 250px; height: 3px; opacity: 1;">
+    </div>
+  </div>
+
+  <!-- Barra de búsqueda -->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="search-container">
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="fas fa-search"></i>
+          </span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Buscar carga..."
+            [(ngModel)]="searchTerm"
+            (keyup)="onSearch()"
+          >
+          <select class="form-select" [(ngModel)]="searchField" (change)="onSearch()">
+            <option value="id">ID</option>
+            <option value="tipo">Tipo de Carga</option>
+            <option value="peso">Peso</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mostrar error si existe -->
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  
+  <!-- Spinner de carga -->
+  <div *ngIf="loading" class="d-flex justify-content-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  <!-- Tabla de cargas -->
+  <div *ngIf="!loading && filteredCargas.length > 0" class="card">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Cargas Registradas</h5>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover mb-0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tipo de Carga</th>
+              <th>Peso (Toneladas)</th>
+              <th>Descripción</th>
+              <th>Precio por Tonelada</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let carga of filteredCargas">
+              <td>{{ carga.id_carga }}</td>
+              <td>{{ carga.tipo_carga }}</td>
+              <td>{{ carga.peso_toneladas }}</td>
+              <td>{{ carga.descripcion }}</td>
+              <td>{{ carga.precio_por_tonelada | currency }}</td>
+              <td>
+                <div class="btn-group btn-group-sm">
+                  <button class="btn btn-info me-1" [routerLink]="['/dashboard/cargas', carga.id_carga]">
+                    Ver
+                  </button>
+                  <button class="btn btn-warning me-1" [routerLink]="['/dashboard/cargas', carga.id_carga, 'edit']">
+                    Editar
+                  </button>
+                  <button class="btn btn-danger" (click)="deleteCarga(carga.id_carga)">
+                    Eliminar
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mensaje cuando no hay cargas -->
+  <div *ngIf="!loading && filteredCargas.length === 0 && !error" class="alert alert-info">
+    No hay cargas registradas
+  </div>
+</div>

@@ -9,4 +9,5 @@ export interface Conductor {
   fecha_vencimiento_licencia: string;
   created_at?: string;
   updated_at?: string;
+  nombre_completo?: string;
 }

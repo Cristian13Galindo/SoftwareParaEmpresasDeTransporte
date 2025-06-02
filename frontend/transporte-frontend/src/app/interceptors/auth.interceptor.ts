@@ -2,7 +2,11 @@ import { HttpErrorResponse, HttpInterceptorFn, HttpRequest } from '@angular/comm
 import { catchError, throwError } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const accessToken = localStorage.getItem('accessToken');
+  // Usar auth_token para mantener consistencia con TokenService
+  const accessToken = localStorage.getItem('auth_token');
+  
+  console.log('Interceptando solicitud:', req.url);
+  console.log('Token disponible:', !!accessToken);
   
   if (accessToken) {
     req = req.clone({
@@ -14,10 +18,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
+      console.error('Error en solicitud HTTP:', error);
+      
       if (error.status === 401) {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('refresh_token');
         
         // Redirigir manualmente a la página de login
         window.location.href = '/login';

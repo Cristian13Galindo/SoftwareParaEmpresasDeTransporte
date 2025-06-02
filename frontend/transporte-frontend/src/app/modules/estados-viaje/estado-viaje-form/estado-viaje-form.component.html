@@ -1,0 +1,39 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h2 class="mb-0">{{ isEditing ? 'Editar' : 'Nuevo' }} Estado de Viaje</h2>
+    </div>
+    
+    <div class="card-body">
+      <div *ngIf="loading" class="text-center">
+        <div class="spinner-border text-primary"></div>
+      </div>
+      
+      <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+      
+      <form (ngSubmit)="onSubmit()" #estadoForm="ngForm" *ngIf="!loading">
+        <div class="row">
+          <div class="col-12 mb-3">
+            <label for="estado" class="form-label">Estado</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="estado" 
+              name="estado"
+              [(ngModel)]="estadoViaje.estado" 
+              required
+              placeholder="Ingrese el nombre del estado"
+            >
+          </div>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-secondary" routerLink="/dashboard/estados-viaje">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="estadoForm.invalid || saving">
+            {{ saving ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Guardar') }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

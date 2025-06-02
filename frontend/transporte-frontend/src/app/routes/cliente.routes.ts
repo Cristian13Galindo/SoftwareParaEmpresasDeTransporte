@@ -1,27 +1,26 @@
 import { Routes } from '@angular/router';
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-
-@Component({
-  selector: 'app-cliente-list',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  template: `
-    <div class="container">
-      <h2 class="mt-4 mb-4">Gestión de Clientes</h2>
-      <div class="alert alert-info">
-        Módulo en desarrollo. Estará disponible próximamente.
-      </div>
-      <button class="btn btn-secondary" routerLink="/dashboard">Volver al Dashboard</button>
-    </div>
-  `
-})
-export class ClienteListComponent {}
+import { AuthGuard } from '../guards/auth.guard';
 
 export const CLIENTE_ROUTES: Routes = [
   {
     path: '',
-    component: ClienteListComponent
+    canActivate: [AuthGuard],
+    loadComponent: () => import('../modules/cliente/cliente-list/cliente-list.component')
+      .then(m => m.ClienteListComponent)
+  },
+  {
+    path: 'nuevo',
+    loadComponent: () => import('../modules/cliente/cliente-form/cliente-form.component')
+      .then(m => m.ClienteFormComponent)
+  },
+  {
+    path: ':id',
+    loadComponent: () => import('../modules/cliente/cliente-detail/cliente-detail.component')
+      .then(m => m.ClienteDetailComponent)
+  },
+  {
+    path: ':id/edit',
+    loadComponent: () => import('../modules/cliente/cliente-form/cliente-form.component')
+      .then(m => m.ClienteFormComponent)
   }
 ];

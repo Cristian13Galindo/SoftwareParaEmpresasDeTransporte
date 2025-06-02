@@ -1,0 +1,91 @@
+<div class="container-fluid">
+  <!-- Título principal -->
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h1 class="titulo-principal fw-bold text-primary mb-3">Gestión de Estados de Viaje</h1>
+      <hr class="mx-auto" style="width: 250px; height: 3px; opacity: 1;">
+    </div>
+  </div>
+
+  <!-- Barra de búsqueda -->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="search-container">
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="fas fa-search"></i>
+          </span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Buscar estado..."
+            [(ngModel)]="searchTerm"
+            (keyup)="onSearch()"
+          >
+          <select class="form-select" [(ngModel)]="searchField" (change)="onSearch()">
+            <option value="id">ID</option>
+            <option value="estado">Estado</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mostrar error si existe -->
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  
+  <!-- Spinner de carga -->
+  <div *ngIf="loading" class="d-flex justify-content-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  <!-- Tabla de estados -->
+  <div *ngIf="!loading && filteredEstados.length > 0" class="card">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Estados de Viaje Registrados</h5>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover mb-0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Estado</th>
+              <th>Fecha Creación</th>
+              <th>Última Actualización</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let estado of filteredEstados">
+              <td>{{ estado.id_estado }}</td>
+              <td>{{ estado.estado }}</td>
+              <td>{{ estado.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>{{ estado.updated_at | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>
+                <div class="btn-group btn-group-sm">
+                  <button class="btn btn-info me-1" [routerLink]="['/dashboard/estados-viaje', estado.id_estado]">
+                    Ver
+                  </button>
+                  <button class="btn btn-warning me-1" [routerLink]="['/dashboard/estados-viaje', estado.id_estado, 'edit']">
+                    Editar
+                  </button>
+                  <button class="btn btn-danger" (click)="deleteEstado(estado.id_estado)">
+                    Eliminar
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mensaje cuando no hay estados -->
+  <div *ngIf="!loading && filteredEstados.length === 0 && !error" class="alert alert-info">
+    No hay estados de viaje registrados
+  </div>
+</div>
