@@ -11,10 +11,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import os
-# Importar dotenv y cargar variables de entorno
-from dotenv import load_dotenv
-load_dotenv()  # Esta línea también puede estar presente
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,7 +25,7 @@ SECRET_KEY = 'django-insecure-4b1b!14!myx1v&wf(bkqlrhe%!h^=znwt4mgod$)m3lite2-g*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']  # Esto ya está configurado así
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -41,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-   # 'django_extensions',
+    'django_extensions',
     
     # Third-party apps
     'rest_framework',
@@ -100,11 +96,11 @@ WSGI_APPLICATION = 'transporte.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DB_NAME', 'transporte_db'),
-        'USER': os.environ.get('DB_USER', 'transporte_user'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'transporte_password'),
-        'HOST': os.environ.get('DB_HOST', 'db'),
-        'PORT': os.environ.get('DB_PORT', '3306'),
+        'NAME': 'transporte_db',
+        'USER': 'transporte_user',
+        'PASSWORD': 'transporte_password',
+        'HOST': 'db',  # Nombre del servicio en docker-compose
+        'PORT': '3306',
     }
 }
 
@@ -170,4 +166,31 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    
+    # Local apps
+    'apps.usuarios',
+    'apps.empresa',
+    'apps.vehiculo',
+    'apps.conductor',
+    'apps.viaje',
+    'apps.carga',
+    'apps.factura',
+    'apps.auditoria',
+    'apps.estadoviaje',
+    'apps.destinatariofinal',
+    'apps.cliente',
+    'apps.auditoria_loginusuarios',
+    
+    # Third party apps
+    'rest_framework',  # <-- AÑADIR ESTA LÍNEA
+    'rest_framework_simplejwt',  # <-- AÑADIR ESTA LÍNEA
+]
 
