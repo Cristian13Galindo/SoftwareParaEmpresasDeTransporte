@@ -1,175 +1,165 @@
-<div class="header-bar">
-  <div class="user-info">
-    <img src="assets/images/user-avatar.jpg" alt="User" class="user-avatar">
-    <span class="user-name">Bienvenido Admin </span>
-    <span class="program-selector">
-      <span class="program-name">SISTEMA DE TRANSPORTES</span>
-      <i class="dropdown-icon"></i>
-    </span>
-  </div>
-</div>
-
-<!-- Main layout -->
-<div class="main-layout">
+<div class="dashboard-layout">
   <!-- Sidebar navigation -->
   <div class="sidebar">
     <div class="sidebar-header">
-      <img src="assets/images/logo.jpg" alt="Logo" class="company-logo">
+      <div class="logo-container">
+        <img src="assets/images/logo.avif" alt="Logo" class="company-logo">
+      </div>
+      <h3 class="brand-name">TransporteApp</h3>
     </div>
-    <!-- Modificar todas las rutas agregando /dashboard al inicio -->
-    <a routerLink="/dashboard" class="menu-item">
-      <i class="menu-icon fas fa-home"></i>Inicio
-    </a>
     
-    <a routerLink="/dashboard/usuarios" class="menu-item">
-      <i class="menu-icon fas fa-user"></i>Usuario
-    </a>
-    
-    <div class="menu-item-container">
-      <a routerLink="/dashboard/empresas" class="menu-item menu-dropdown">
-        <div class="menu-icon-group">
-          <i class="menu-icon fas fa-id-card"></i>Empresas
-        </div>
-        <i class="fas fa-chevron-down dropdown-icon"></i>
+    <div class="sidebar-menu">
+      <a routerLink="/dashboard" class="menu-item" routerLinkActive="active">
+        <i class="menu-icon fas fa-tachometer-alt"></i>
+        <span>Dashboard</span>
       </a>
-      <div class="submenu">
-        <a routerLink="/dashboard/empresas/nuevo" class="submenu-item">
-          <i class="fas fa-plus"></i>Nueva Empresa
+      
+      <a routerLink="/dashboard/usuarios" class="menu-item" routerLinkActive="active">
+        <i class="menu-icon fas fa-users"></i>
+        <span>Usuarios</span>
+      </a>
+      
+      <div class="menu-item-container">
+        <a routerLink="/dashboard/empresas" class="menu-item menu-dropdown" routerLinkActive="active">
+          <div class="menu-icon-group">
+            <i class="menu-icon fas fa-building"></i>
+            <span>Empresas</span>
+          </div>
+          <i class="fas fa-chevron-right dropdown-icon"></i>
         </a>
       </div>
-    </div>
-    
-    <div class="menu-item-container">
-      <a routerLink="/dashboard/vehiculos" class="menu-item menu-dropdown">
-        <div class="menu-icon-group">
-          <i class="menu-icon fas fa-id-card"></i>Vehiculos
-        </div>
-        <i class="fas fa-chevron-down dropdown-icon"></i>
-      </a>
-      <div class="submenu">
-        <a routerLink="/dashboard/vehiculos/nuevo" class="submenu-item">
-          <i class="fas fa-plus"></i>Nuevo Vehiculo
+      
+      <div class="menu-item-container">
+        <a routerLink="/dashboard/vehiculos" class="menu-item menu-dropdown" routerLinkActive="active">
+          <div class="menu-icon-group">
+            <i class="menu-icon fas fa-truck"></i>
+            <span>Vehículos</span>
+          </div>
+          <i class="fas fa-chevron-right dropdown-icon"></i>
         </a>
       </div>
-    </div>
-    
-    <div class="menu-item-container">
-      <a routerLink="/dashboard/conductores" class="menu-item menu-dropdown">
-        <div class="menu-icon-group">
-          <i class="menu-icon fas fa-id-card"></i>Conductor
-        </div>
-        <i class="fas fa-chevron-down dropdown-icon"></i>
-      </a>
-      <div class="submenu">
-        <a routerLink="/dashboard/conductores/nuevo" class="submenu-item">
-          <i class="fas fa-plus"></i>Nuevo Conductor
+      
+      <div class="menu-item-container">
+        <a routerLink="/dashboard/conductores" class="menu-item menu-dropdown" routerLinkActive="active">
+          <div class="menu-icon-group">
+            <i class="menu-icon fas fa-id-card"></i>
+            <span>Conductores</span>
+          </div>
+          <i class="fas fa-chevron-right dropdown-icon"></i>
         </a>
       </div>
-    </div>
-    
-    <div class="menu-item-container">
-      <a routerLink="/dashboard/viajes" class="menu-item menu-dropdown">
-        <div class="menu-icon-group">
-          <i class="menu-icon fas fa-id-card"></i>Viajes
-        </div>
-        <i class="fas fa-chevron-down dropdown-icon"></i>
-      </a>
-      <div class="submenu">
-        <a routerLink="/dashboard/viajes/nuevo" class="submenu-item">
-          <i class="fas fa-plus"></i>Nuevo Viaje
+      
+      <div class="menu-item-container">
+        <a routerLink="/dashboard/viajes" class="menu-item menu-dropdown" routerLinkActive="active">
+          <div class="menu-icon-group">
+            <i class="menu-icon fas fa-route"></i>
+            <span>Viajes</span>
+          </div>
+          <i class="fas fa-chevron-right dropdown-icon"></i>
         </a>
       </div>
-    </div>
-    
-    <div class="menu-item-container">
-      <a routerLink="/dashboard/cargas" class="menu-item menu-dropdown">
-        <div class="menu-icon-group">
-          <i class="menu-icon fas fa-id-card"></i>Cargas
-        </div>
-        <i class="fas fa-chevron-down dropdown-icon"></i>
-      </a>
-      <div class="submenu">
-        <a routerLink="/dashboard/cargas/nuevo" class="submenu-item">
-          <i class="fas fa-plus"></i>Nueva Carga
+      
+      <div class="menu-item-container">
+        <a routerLink="/dashboard/cargas" class="menu-item menu-dropdown" routerLinkActive="active">
+          <div class="menu-icon-group">
+            <i class="menu-icon fas fa-box"></i>
+            <span>Cargas</span>
+          </div>
+          <i class="fas fa-chevron-right dropdown-icon"></i>
         </a>
       </div>
-    </div>
 
-    <div class="menu-item-container">
-      <a routerLink="/dashboard/clientes" class="menu-item menu-dropdown">
-        <div class="menu-icon-group">
-          <i class="menu-icon fas fa-id-card"></i>Clientes
-        </div>
-        <i class="fas fa-chevron-down dropdown-icon"></i>
-      </a>
-      <div class="submenu">
-        <a routerLink="/dashboard/clientes/nuevo" class="submenu-item">
-          <i class="fas fa-plus"></i>Nuevo Cliente
+      <div class="menu-item-container">
+        <a routerLink="/dashboard/clientes" class="menu-item menu-dropdown" routerLinkActive="active">
+          <div class="menu-icon-group">
+            <i class="menu-icon fas fa-user-tie"></i>
+            <span>Clientes</span>
+          </div>
+          <i class="fas fa-chevron-right dropdown-icon"></i>
         </a>
       </div>
-    </div>
 
-    <div class="menu-item-container">
-      <a routerLink="/dashboard/destinatarios" class="menu-item menu-dropdown">
-        <div class="menu-icon-group">
-          <i class="menu-icon fas fa-id-card"></i>Destinatario final
-        </div>
-        <i class="fas fa-chevron-down dropdown-icon"></i>
-      </a>
-      <div class="submenu">
-        <a routerLink="/dashboard/destinatarios/nuevo" class="submenu-item">
-          <i class="fas fa-plus"></i>Nuevo Destinatario
+      <div class="menu-item-container">
+        <a routerLink="/dashboard/destinatarios" class="menu-item menu-dropdown" routerLinkActive="active">
+          <div class="menu-icon-group">
+            <i class="menu-icon fas fa-user-check"></i>
+            <span>Destinatarios</span>
+          </div>
+          <i class="fas fa-chevron-right dropdown-icon"></i>
         </a>
       </div>
-    </div>
-    
-    <div class="menu-item-container">
-      <a routerLink="/dashboard/estados-viaje" class="menu-item menu-dropdown">
-        <div class="menu-icon-group">
-          <i class="menu-icon fas fa-id-card"></i>Estado de Viaje
-        </div>
-        <i class="fas fa-chevron-down dropdown-icon"></i>
-      </a>
-      <div class="submenu">
-        <a routerLink="/dashboard/estados-viaje/nuevo" class="submenu-item">
-          <i class="fas fa-plus"></i>Nuevo estado del viaje
+      
+      <div class="menu-item-container">
+        <a routerLink="/dashboard/estados-viaje" class="menu-item menu-dropdown" routerLinkActive="active">
+          <div class="menu-icon-group">
+            <i class="menu-icon fas fa-tasks"></i>
+            <span>Estados de Viaje</span>
+          </div>
+          <i class="fas fa-chevron-right dropdown-icon"></i>
         </a>
       </div>
-    </div>
-    
-    <div class="menu-item-container">
-      <a routerLink="/dashboard/facturas" class="menu-item menu-dropdown">
-        <div class="menu-icon-group">
-          <i class="menu-icon fas fa-id-card"></i>Facturas
-        </div>
-        <i class="fas fa-chevron-down dropdown-icon"></i>
-      </a>
-      <div class="submenu">
-        <a routerLink="/dashboard/facturas/nuevo" class="submenu-item">
-          <i class="fas fa-plus"></i>Nueva Factura
+      
+      <div class="menu-item-container">
+        <a routerLink="/dashboard/facturas" class="menu-item menu-dropdown" routerLinkActive="active">
+          <div class="menu-icon-group">
+            <i class="menu-icon fas fa-file-invoice-dollar"></i>
+            <span>Facturas</span>
+          </div>
+          <i class="fas fa-chevron-right dropdown-icon"></i>
         </a>
       </div>
+      
+      <div class="menu-category">REPORTES</div>
+      
+      <a routerLink="/dashboard/auditoria" class="menu-item" routerLinkActive="active">
+        <i class="menu-icon fas fa-history"></i>
+        <span>Auditoría</span>
+      </a>
+      
+      <a routerLink="/dashboard/auditoria-login" class="menu-item" routerLinkActive="active">
+        <i class="menu-icon fas fa-user-clock"></i>
+        <span>Auditoría Login</span>
+      </a>
     </div>
-    
-    <a routerLink="/dashboard/auditoria" class="menu-item">
-      <i class="menu-icon fas fa-history"></i>Auditoría
-    </a>
-    
-    <a routerLink="/dashboard/auditoria-login" class="menu-item">
-      <i class="menu-icon fas fa-user-clock"></i>Auditoría Login
-    </a>
     
     <div class="sidebar-footer">
       <a (click)="logout()" class="menu-item logout">
-        <i class="menu-icon fas fa-sign-out-alt"></i>Cerrar Sesión
+        <i class="menu-icon fas fa-sign-out-alt"></i>
+        <span>Cerrar Sesión</span>
       </a>
     </div>
   </div>
 
-  <!-- Content area goes here -->
-  <div class="content-area">
-    <div class="dashboard-container">
-      <!-- Tu navegación del dashboard aquí -->
+  <!-- Main content area -->
+  <div class="main-content">
+    <!-- Header bar -->
+    <div class="header-bar">
+      <div class="header-left">
+        <button class="toggle-sidebar">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="breadcrumb">
+          <span>Sistema de Transportes</span>
+        </div>
+      </div>
+      
+      <div class="header-right">
+        <div class="notifications">
+          <i class="far fa-bell"></i>
+          <span class="badge">3</span>
+        </div>
+        <div class="user-info">
+          <div class="user-details">
+            <span class="user-name">Admin</span>
+            <span class="user-role">Administrador</span>
+          </div>
+          <img src="assets/images/user-avatar.jpg" alt="User" class="user-avatar">
+        </div>
+      </div>
+    </div>
+
+    <!-- Content area -->
+    <div class="content-container">
       <router-outlet></router-outlet>
     </div>
   </div>

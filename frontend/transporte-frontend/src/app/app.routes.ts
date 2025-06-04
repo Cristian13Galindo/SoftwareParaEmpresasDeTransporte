@@ -10,6 +10,15 @@ export const routes: Routes = [
     path: 'dashboard',
     loadComponent: () => import('./modules/dashboard/dashboard.component').then(m => m.DashboardComponent),
     children: [
+      { 
+        path: '', 
+        redirectTo: 'inicio', 
+        pathMatch: 'full' 
+      },
+      {
+        path: 'inicio',
+        loadComponent: () => import('./modules/inicio/inicio.component').then(m => m.InicioComponent)
+      },
       {
          path: 'vehiculos',
          loadChildren: () => import('./routes/vehiculos.routes').then(m => m.VEHICULOS_ROUTES)
